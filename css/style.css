@@ -1,0 +1,174 @@
+@import url('overall.css');
+@import url('reset.css');
+
+/*header styles start*/
+
+.header {
+  flex-grow: 1;
+  margin-bottom: 30px;
+}
+
+.header__wrapper {
+  padding-top: 60px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.header__left {
+  display: flex;
+}
+
+.header__title {
+  font-size: 70px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.header__experience {
+  margin-right: 30px;
+}
+
+.header__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.header__list-item {
+  align-self: flex-end;
+  font-size: 12px;
+  border-radius: 50px;
+  padding: 6px 12px;
+  background-color: #1E1E1E;
+  color: #E8E3DC;
+}
+
+.header__list-item:not(:last-child) {
+  margin-bottom: 4px;
+}
+
+/*header styles end*/
+
+/*main styles start*/
+
+.clients,
+.companies {
+  margin-bottom: 60px;
+}
+
+.clients__text,
+.companies__text {
+  opacity: 0.3;
+  margin-bottom: 10px;
+}
+
+.clients__list-item:not(:last-child),
+.companies__list-item:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+/*main styles end*/
+
+/*footer styles start*/
+
+.footer {
+  position: absolute;
+  right: 60px;
+  bottom: 60px;
+}
+
+.footer__list {
+  display: flex;
+  justify-content: right;
+}
+
+.footer__list-item:not(:last-child) {
+  margin-right: 20px;
+}
+
+.footer__list-link:hover {
+  color: #858585;
+}
+
+/*footer styles end*/
+
+
+/*adaptive*/
+
+@media screen and (max-width: 910px) {
+
+  .header__title {
+  width: min-content;
+  }
+
+  .header__experience {
+  align-self: center;
+  }
+
+}
+  
+@media screen and (max-width: 665px) {
+
+  .wrapper {
+    padding: 0 20px;
+  }
+
+/*header styles start*/
+
+  .header {
+    flex-grow: 0;
+    margin-bottom: 50px;
+  }
+
+  .header__wrapper{
+    padding-top: 20px;
+  }
+
+  .header__title {
+    font-size: 50px;
+  }
+
+  .header__left {
+    margin-bottom: 20px;
+  }
+
+  .header__experience {
+    margin: 0;
+  }
+  
+  .header__list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 70%;
+  }
+  
+  .header__list-item {
+    align-self: flex-start;
+    margin-right: 4px;
+  }
+  
+/*header styles end*/
+  
+/*main styles start*/
+  
+  .main {
+    flex: 1 0 auto;
+  }
+  
+/*main styles end*/
+  
+/*footer styles start*/
+  
+  .footer {
+    position: static;
+    flex: 0 0 auto;
+    margin-bottom: 30px;
+  }
+
+  .footer__list {
+    justify-content: flex-start;
+  }
+  
+/*footer styles end*/
+    
+}
