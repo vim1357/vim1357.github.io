@@ -43,8 +43,8 @@ body:after {
     height: 100%;
     content: "";
     background-image: url(https://i.gifer.com/7LOu.gif);
-    opacity: .05;
-    z-index: 100000;
+    opacity: .03;
+    z-index: -1;
     pointer-events: none;
 }
 
