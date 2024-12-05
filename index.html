@@ -2,77 +2,61 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./css/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <title>Portfolio</title>
+  <title>Andrey Odokienko</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-  <div class="wrapper">
-    <header class="header">
-      <div class="header__wrapper">
-        <div class="header__left">
-          <h1 class="header__title">andrey odokienko</h1>
-          <span class="header__experience">2+ years</span>
+    <div class="container">
+        <!-- 1 строка -->
+        <div class="row">
+            <img src="placeholder.jpg" alt="Profile Picture" class="circle-image">
+            <h1>I'm Andrey</h1>
         </div>
-        <div class="header__right">
-          <ul class="header__list">
-            <li class="header__list-item">design</li>
-            <li class="header__list-item">interfaces</li>
-            <li class="header__list-item">product</li>
-            <li class="header__list-item">lead</li>
-            <li class="header__list-item">b2b / b2c</li>
-          </ul>
+        <!-- 2 строка -->
+        <div class="row">
+            <h1>product design leader</h1>
         </div>
-      </div>
-    </header>
-    <main class="main">
-      <div class="clients">
-        <p class="clients__text">clients:</p>
-        <ul class="clients__list">
-          <li class="clients__list-item">☍ rosgosstrakh</li>
-          <li class="clients__list-item">☍ vtb</li>
-          <li class="clients__list-item">☍ rshb</li>
-          <li class="clients__list-item">☍ hipolink</li>
-          <li class="clients__list-item">☍ xyz school</li>
-        </ul>
-      </div>
-      <div class="companies">
-        <p class="companies__text">companies:</p>
-        <ul class="companies__list">
-          <li class="companies__list-item">⌬ current sber cloud</li>
-          <li class="companies__list-item">⌬ ex. pinkman</li>
-          <li class="companies__list-item">⌬ ex. xyz school</li>
-        </ul>
-      </div>
-
-    </main>
-    <footer class="footer">
-      <nav class="footer__nav">
-        <ul class="footer__list">
-          <li class="footer__list-item">
-            <a href="mailto:odokienkoan@gmail.com" class="footer__list-link">
-              ☛ e-mail
-            </a>
-          </li>
-          <li class="footer__list-item">
-            <a href="https://t.me/odokienkoan" class="footer__list-link">
-              ☛ telegram
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </footer>
-  </div>
+        <!-- 3 строка -->
+        <div class="row">
+            <h1>and&nbsp;aspiring indie hacker</h1>
+            <div class="tooltip-container">
+                <div class="tooltip-circle">?</div>
+                <div class="tooltip">An&nbsp;indie hacker is&nbsp;an&nbsp;individual or&nbsp;small team that builds, launches, and&nbsp;grows a&nbsp;business or&nbsp;digital product independently. The&nbsp;term "indie" is&nbsp;short for&nbsp;"independent".</div>
+            </div>
+        </div>
+        <!-- Отступ -->
+        <div class="spacer"></div>
+        <!-- Текст с максимальной шириной 600px -->
+        <p class="text limited">
+            <a href="https://whiteboard.framer.wiki/" target="_blank">Launched UX-Whiteboard consalting</a>, 
+            <a href="https://release.framer.ai/" target="_blank">card game for&nbsp;IT-specialists</a>, 
+            <a href="https://voici.framer.ai/" target="_blank">AI-bot&nbsp;for creators</a> (in progress)
+        </p>
+        <!-- Отступ -->
+        <div class="spacer"></div>
+        <!-- Еще текст -->
+        <p class="text limited">
+            Worked at  <a href="https://www.raiffeisen.ru/" target="_blank">Raiffeisen Bank</a>, 
+            <a href="https://cloud.ru/" target="_blank">Cloud.ru</a> (top-1 cloud paas in&nbsp;Russia), 
+            <a href="https://www.pinkman.ru/" target="_blank">PINKMAN</a> (top-3 design agency in&nbsp;Russia). Always ready and&nbsp;happy to&nbsp;collab!
+        </p>
+        <!-- Отступ -->
+        <div class="spacer large"></div>
+        <!-- 5 кнопок -->
+        <div class="buttons-row">
+            <button onclick="window.open('https://t.me/designtwist', '_blank')">Telegram channel</button>
+            <button onclick="window.open('https://read.cv/odokienko', '_blank')">Read.cv</button>
+            <button onclick="window.open('https://www.linkedin.com/in/odokienkoan/', '_blank')">LinkedIn</button>
+            <button onclick="window.open('https://x.com/dsgn_0', '_blank')">Twitter</button>
+            <button onclick="window.open('https://www.instagram.com/odokienko_an/', '_blank')">Instagram</button>
+        </div>
+    </div>
 </body>
-
 </html>
