@@ -193,7 +193,8 @@ button:hover {
 
     button {
         width: auto;
-        padding: 12px 24px;
+        padding: 10px 20px;
+        font-size: 12px;
     }
 
     /* Изменение размера картинки и тултипа */
