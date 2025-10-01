@@ -1,216 +1,303 @@
-/* Общие стили */
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-family: 'Roboto Mono', monospace;
+    background-color: #000000;
+    color: #000000;
     min-height: 100vh;
-    background-color: #fff;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    text-transform: uppercase;
 }
 
-.container {
+/* Main container */
+.portfolio-container {
     width: 100%;
-    max-width: 800px;
-    
+    max-width: 420px;
+    display: flex;
+    justify-content: center;
 }
 
-/* 1 строка */
-.row {
+/* Main card */
+.main-card {
+    width: 400px;
+    background-color: transparent;
+    border-radius: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Static content: no entrance animation */
+.main-card > * {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    will-change: auto;
+}
+
+.main-card > *:nth-child(1) { animation-delay: 0ms; }
+.main-card > *:nth-child(2) { animation-delay: 80ms; }
+.main-card > *:nth-child(3) { animation-delay: 160ms; }
+.main-card > *:nth-child(4) { animation-delay: 240ms; }
+.main-card > *:nth-child(5) { animation-delay: 320ms; }
+.main-card > *:nth-child(6) { animation-delay: 400ms; }
+.main-card > *:nth-child(7) { animation-delay: 480ms; }
+.main-card > *:nth-child(8) { animation-delay: 560ms; }
+.main-card > *:nth-child(9) { animation-delay: 640ms; }
+
+@keyframes slide-in {
+    0%   { opacity: 1; transform: none; }
+    100% { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .main-card > * {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Card sections */
+.card-section {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    background-color: #ffffff;
+    border-radius: 16px;
+}
+
+.header-section {
+    gap: 8px;
+}
+
+/* Status indicator */
+.status-indicator {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 12px;
+    gap: 8px;
+}
+
+.status-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: #0F9F6B;
+    border: 1px solid #D4F4E7;
+    position: relative;
+    box-shadow: 0 0 8px rgba(15, 159, 107, 0.8);
+}
+
+.status-dot::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(15, 159, 107, 0.35);
+    transform: translate(-50%, -50%) scale(1);
+    animation: pulse 1.8s ease-out infinite;
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+    60% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
+    100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
+}
+
+.status-text {
+    font-size: 12px;
+    color: #0F9F6B;
+    font-weight: 400;
+}
+
+/* Main title */
+.main-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+    line-height: 1.2;
     margin: 0;
 }
 
-.circle-image {
-    width: 48px;
-    height: 48px;
+/* Subtitle */
+.subtitle {
+    font-size: 12px;
+    color: #878787;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Profile image */
+.profile-image {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 32px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     object-fit: cover;
 }
 
-/* Заголовок */
-h1 {
-    font-size: 46px;
+/* Section titles */
+.section-title {
+    font-size: 14px;
     font-weight: 500;
-    color: #2B2B2B;
-    letter-spacing: -1.7px;
-    line-height: 1.2em;
+    color: #000000;
     margin: 0;
 }
 
-/* Текст */
-.text {
-    font-size: 18px;
+/* Companies grid */
+.companies-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.company-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+}
+
+.company {
+    font-size: 12px;
+    color: #878787;
     font-weight: 400;
-    color: #5C5C5C;
-    letter-spacing: -0.2px;
-    line-height: 1.5em;
-    margin: 0;
 }
 
-/* Максимальная ширина текста */
-.limited {
-    max-width: 600px;
+.separator {
+    font-size: 12px;
+    color: #878787;
+    font-weight: 400;
+}
+
+/* Projects and social lists */
+.projects-list,
+.social-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.project-item,
+.social-item {
+    font-size: 12px;
+    color: #878787;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.project-item a,
+.social-item a {
+    color: #878787;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.project-item a:hover,
+.social-item a:hover {
+    color: #000000;
+}
+
+/* Divider */
+.divider {
+    width: 300px;
+    height: 2px;
+    background-color: #ffffff;
     margin: 0 auto;
 }
 
-/* Отступы */
-.spacer {
-    height: 28px;
+/* Contact section */
+.contact-section {
+    padding: 20px;
+    border: 1px solid #ffffff;
+    border-radius: 16px;
+    margin: 0;
 }
 
-.spacer.large {
-    height: 64px;
-}
-
-/* Ссылки */
-/* Ссылки */
-a {
-    color: #0099FF;
-    text-decoration: none;
-    font-weight: medium;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-
-/* Тултип */
-.tooltip-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.tooltip-circle {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background-color: #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
-    cursor: pointer;
-    
-}
-
-.tooltip-circle:hover {
-    background-color: rgba(0, 0, 0, 0.5); /* Затемнение при наведении */
-}
-
-.tooltip {
-    display: none;
-    position: absolute;
-    bottom: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #333;
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    white-space: normal;
-    width: 200px;
-    max-width: 200px;
+.contact-button {
+    font-size: 12px;
+    color: #ffffff;
+    font-weight: 400;
     text-align: left;
-    opacity: 0;
-    transition: opacity 0.1s ease, transform 0.1s ease;
-}
-
-/* Показ тултипа с задержкой */
-.tooltip-container:hover .tooltip {
-    display: block;
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-    transition-delay: 0.1s; /* Задержка появления */
-}
-
-/* Кнопки */
-.buttons-row {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-}
-
-button {
-    background-color: #2B2B2B;
-    color: #fff;
-    border: none;
-    padding: 12px 24px;
-    font-size: 14px;
-    font-weight: bold;
     cursor: pointer;
-    transition: transform 0.1s ease;
-    border-radius: 12px;
+    transition: opacity 0.2s ease;
 }
 
-button:hover {
-    transform: scale(1.05);
+.contact-button:hover {
+    opacity: 0.8;
 }
 
-
-/* Адаптивные стили */
-@media (max-width: 700px) {
-    /* Заголовки */
-    h1 {
-        font-size: 20px;
-        letter-spacing: -0.5px;
-        
-    }
-
+/* Responsive design */
+@media (max-width: 768px) {
     body {
-        padding: 8px;
+        padding: 16px;
     }
-
-    /* Текст */
-    .text {
-        font-size: 14px;
-        letter-spacing: -0.2px;
+    
+    .portfolio-container {
+        max-width: 375px;
     }
-
-    /* Кнопки */
-    .buttons-row {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 12px;
+    
+    .main-card {
+        width: 100%;
+        max-width: 375px;
     }
+    
+    .main-title { font-size: 14px; }
+    .subtitle { font-size: 12px; }
+    .section-title { font-size: 14px; }
+    .company,
+    .separator,
+    .project-item,
+    .social-item { font-size: 12px; }
+    .contact-button { font-size: 12px; }
+}
 
-    .row {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 12px;
+@media (max-width: 480px) {
+    body {
+        display: block;
+        padding: 24px 12px 12px;
+        min-height: auto;
     }
-
-    button {
-        width: auto;
-        padding: 10px 20px;
-        font-size: 12px;
+    
+    .portfolio-container {
+        max-width: 420px;
     }
-
-    /* Изменение размера картинки и тултипа */
-    .circle-image {
-        width: 32px;
-        height: 32px;
+    
+    .card-section {
+        padding: 16px;
     }
-
-    .tooltip-circle {
-        width: 32px;
-        height: 32px;
-    }
-
-    .tooltip {
-        bottom: 0;
-        left: -380%;
+    
+    .header-section { gap: 24px; }
+    .main-title { font-size: 14px; }
+    .subtitle { font-size: 12px; }
+    .section-title { font-size: 14px; }
+    .company,
+    .separator,
+    .project-item,
+    .social-item { font-size: 12px; }
+    .contact-button { font-size: 12px; }
+    
+    .avatar {
+        width: 28px;
+        height: 28px;
     }
 }
 

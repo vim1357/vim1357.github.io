@@ -3,6 +3,7 @@
 
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -13,49 +14,94 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <!-- 1 строка -->
-        <div class="row">
-            <img src="placeholder.jpg" alt="Profile Picture" class="circle-image">
-            <h1>I'm Andrey</h1>
-        </div>
-        <!-- 2 строка -->
-        <div class="row">
-            <h1>product design leader</h1>
-        </div>
-        <!-- 3 строка -->
-        <div class="row">
-            <h1>and&nbsp;aspiring indie hacker</h1>
-            <div class="tooltip-container">
-                <div class="tooltip-circle">?</div>
-                <div class="tooltip">An&nbsp;indie hacker is&nbsp;an&nbsp;individual or&nbsp;small team that builds, launches, and&nbsp;grows a&nbsp;business or&nbsp;digital product independently. The&nbsp;term "indie" is&nbsp;short for&nbsp;"independent".</div>
+    <div class="portfolio-container">
+        <div class="main-card">
+            <!-- Header Section -->
+            <div class="card-section header-section">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span class="status-text">available for part-time freelance</span>
+                </div>
+                <h1 class="main-title">Hi! I am Andrey Odokienko</h1>
+                <p class="subtitle">product design leader with expertise in b2b, education, hr, finance and clouds</p>
+                <div class="profile-image">
+                    <img src="placeholder.jpg" alt="Profile Picture" class="avatar">
+                </div>
             </div>
-        </div>
-        <!-- Отступ -->
-        <div class="spacer"></div>
-        <!-- Текст с максимальной шириной 600px -->
-        <p class="text limited">
-            <a href="https://whiteboard.framer.wiki/" target="_blank">Launched UX-Whiteboard consalting</a>, 
-            <a href="https://release.framer.ai/" target="_blank">card game for&nbsp;IT-specialists</a>, 
-            <a href="https://voici.framer.ai/" target="_blank">AI-bot&nbsp;for creators</a> (in progress)
-        </p>
-        <!-- Отступ -->
-        <div class="spacer"></div>
-        <!-- Еще текст -->
-        <p class="text limited">
-            Worked at  <a href="https://www.raiffeisen.ru/" target="_blank">Raiffeisen Bank</a>, 
-            <a href="https://cloud.ru/" target="_blank">Cloud.ru</a> (top-1 cloud paas in&nbsp;Russia), 
-            <a href="https://www.pinkman.ru/" target="_blank">PINKMAN</a> (top-3 design agency in&nbsp;Russia). Always ready and&nbsp;happy to&nbsp;collab!
-        </p>
-        <!-- Отступ -->
-        <div class="spacer large"></div>
-        <!-- 5 кнопок -->
-        <div class="buttons-row">
-            <button onclick="window.open('https://t.me/designtwist', '_blank')">Telegram channel</button>
-            <button onclick="window.open('https://read.cv/odokienko', '_blank')">Read.cv</button>
-            <button onclick="window.open('https://www.linkedin.com/in/odokienkoan/', '_blank')">LinkedIn</button>
-            <button onclick="window.open('https://x.com/dsgn_0', '_blank')">Twitter</button>
-            <button onclick="window.open('https://www.instagram.com/odokienko_an/', '_blank')">Instagram</button>
+
+            <!-- Divider -->
+            <div class="divider"></div>
+
+            <!-- Worked With Section -->
+            <div class="card-section">
+                <h2 class="section-title">Worked with</h2>
+                <div class="companies-grid">
+                    <div class="company-row">
+                        <span class="company">2pr.io</span>
+                        <span class="separator">/</span>
+                        <span class="company">Raiffeisen Bank</span>
+                        <span class="separator">/</span>
+                        <span class="company">VK</span>
+                        <span class="separator">/</span>
+                        <span class="company">XYZ School</span>
+                        <span class="company">ROSGOSSTRAKH</span>
+                        <span class="separator">/</span>
+                        <span class="company">Pinkman studio</span>
+                        <span class="separator">/</span>
+                        <span class="company">VTB</span>
+                        <span class="company">Plastilin.tech</span>
+                        <span class="separator">/</span>
+                        <span class="company">Oversecured</span>
+                        <span class="separator">/</span>
+                        <span class="company">DUDAREV MOTORSPORT</span>
+                        <span class="company">Cloud.ru</span>
+                        <span class="separator">/</span>
+                        <span class="company">BIANERO</span>
+                        <span class="separator">/</span>
+                        <span class="company">Cuprum</span>
+                        <span class="separator">/</span>
+                        <span class="company">HIPOLINK</span>
+                        <span class="separator">/</span>
+                        <span class="company">M2VC</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="divider"></div>
+
+            <!-- Personal Projects Section -->
+            <div class="card-section">
+                <h2 class="section-title">i also Shipped my own products [Here's only successful]</h2>
+                <div class="projects-list">
+                    <div class="project-item"><a href="https://whiteboard.framer.wiki/" target="_blank">Whiteboard Interview Knowledgebase →</a></div>
+                    <div class="project-item"><a href="https://metrics.framer.wiki/" target="_blank">Metrics Course →</a></div>
+                    <div class="project-item"><a href="https://uxguide.framer.ai/" target="_blank">AI-guide for ux/ui/product designers →</a></div>
+                    <div class="project-item"><a href="https://release.framer.ai/" target="_blank">Card game «Release» →</a></div>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="divider"></div>
+
+            <!-- Social and Content Section -->
+            <div class="card-section">
+                <h2 class="section-title">Social and content</h2>
+                <div class="social-list">
+                    <div class="social-item"><a href="https://t.me/designtwist" target="_blank">Telegram blog →</a></div>
+                    <div class="social-item"><a href="https://vc.ru/u/528995-andrey-odokienko" target="_blank">Vc.ru articles →</a></div>
+                    <div class="social-item"><a href="https://www.linkedin.com/in/odokienkoan/" target="_blank">Linkedin →</a></div>
+                    <div class="social-item"><a href="https://www.instagram.com/odokienko_an/" target="_blank">Instagram →</a></div>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="divider"></div>
+
+            <!-- Contact Section -->
+            <div class="contact-section">
+                <div class="contact-button" onclick="window.open('https://t.me/odokienkoan', '_blank')">Contact via telegram →</div>
+            </div>
         </div>
     </div>
 </body>
