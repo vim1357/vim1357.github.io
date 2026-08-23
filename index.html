@@ -2,109 +2,127 @@
 <html lang="en">
 
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Andrey Odokienko</title>
+  <meta name="description" content="Andrey Odokienko — designer by craft, founder by choice. I build my own products.">
+  <meta property="og:title" content="Andrey Odokienko">
+  <meta property="og:description" content="Designer by craft, founder by choice. I build my own products.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://odokienko.ru">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <title>Andrey Odokienko</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <div class="portfolio-container">
-        <div class="main-card">
-            <!-- Header Section -->
-            <div class="card-section header-section">
-                <div class="status-indicator">
-                    <div class="status-dot"></div>
-                    <span class="status-text">available for part-time freelance</span>
-                </div>
-                <h1 class="main-title">Hi! I am Andrey Odokienko</h1>
-                <p class="subtitle">product design leader with expertise in b2b, education, hr, finance and clouds</p>
-                <div class="profile-image">
-                    <img src="placeholder.jpg" alt="Profile Picture" class="avatar">
-                </div>
-            </div>
+  <div class="page">
 
-            <!-- Divider -->
-            <div class="divider"></div>
-
-            <!-- Worked With Section -->
-            <div class="card-section">
-                <h2 class="section-title">Worked with</h2>
-                <div class="companies-grid">
-                    <div class="company-row">
-                        <span class="company">2pr.io</span>
-                        <span class="separator">/</span>
-                        <span class="company">Raiffeisen Bank</span>
-                        <span class="separator">/</span>
-                        <span class="company">VK</span>
-                        <span class="separator">/</span>
-                        <span class="company">XYZ School</span>
-                        <span class="separator">/</span>
-                        <span class="company">ROSGOSSTRAKH</span>
-                        <span class="separator">/</span>
-                        <span class="company">Pinkman studio</span>
-                        <span class="separator">/</span>
-                        <span class="company">VTB</span>
-                        <span class="separator">/</span>
-                        <span class="company">Plastilin.tech</span>
-                        <span class="separator">/</span>
-                        <span class="company">Oversecured</span>
-                        <span class="separator">/</span>
-                        <span class="company">DUDAREV MOTORSPORT</span>
-                        <span class="separator">/</span>
-                        <span class="company">Cloud.ru</span>
-                        <span class="separator">/</span>
-                        <span class="company">BIANERO</span>
-                        <span class="separator">/</span>
-                        <span class="company">Cuprum</span>
-                        <span class="separator">/</span>
-                        <span class="company">HIPOLINK</span>
-                        <span class="separator">/</span>
-                        <span class="company">M2VC</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Divider -->
-            <div class="divider"></div>
-
-            <!-- Personal Projects Section -->
-            <div class="card-section">
-                <h2 class="section-title">i also Shipped my own products</h2>
-                <div class="projects-list">
-                    <div class="project-item"><a href="https://whiteboard.preplab.ru/" target="_blank">Whiteboard Interview Prep →</a></div>
-                    <div class="project-item"><a href="https://metrics.framer.wiki/" target="_blank">Metrics Course →</a></div>
-                    <div class="project-item"><a href="https://uxguide.framer.ai/" target="_blank">AI-guide for ux/ui/product designers →</a></div>
-                    <div class="project-item"><a href="https://release.framer.ai/" target="_blank">Card game «Release» →</a></div>
-                </div>
-            </div>
-
-            <!-- Divider -->
-            <div class="divider"></div>
-
-            <!-- Social and Content Section -->
-            <div class="card-section">
-                <h2 class="section-title">Social and content</h2>
-                <div class="social-list">
-                    <div class="social-item"><a href="https://t.me/designtwist" target="_blank">Telegram blog →</a></div>
-                    <div class="social-item"><a href="https://vc.ru/u/528995-andrey-odokienko" target="_blank">Vc.ru articles →</a></div>
-                    <div class="social-item"><a href="https://www.linkedin.com/in/odokienkoan/" target="_blank">Linkedin →</a></div>
-                </div>
-            </div>
-
-            <!-- Divider -->
-            <div class="divider"></div>
-
-            <!-- Contact Section -->
-            <div class="contact-section">
-                <div class="contact-button" onclick="window.open('https://t.me/odokienkoan', '_blank')">Contact via telegram →</div>
-            </div>
-        </div>
+    <!-- Language toggle. RU content is pending translation → EN is active for now. -->
+    <div class="toggle" role="group" aria-label="Language">
+      <button type="button" class="lang" data-lang="ru" aria-disabled="true" title="Русская версия скоро">RU</button>
+      <button type="button" class="lang is-active" data-lang="en" aria-current="true">EN</button>
     </div>
+
+    <div class="stack">
+
+      <!-- HERO -->
+      <section class="card hero">
+        <div class="hero-top">
+          <div class="status status--green">
+            <span class="dot"></span>
+            <span>available for Interesting Projects Only</span>
+          </div>
+          <div class="hero-head">
+            <h1 class="card-title hero-title">Hi, I'm Andrey Odokienko.<br>Designer by craft, founder by choice.</h1>
+            <p class="body">For years I designed other people's products — inside banks, clouds and studios. Then I stopped waiting to be noticed and started shipping my own. I care about the result, not the pixel. Some of my products took off, some died — all of them mine.</p>
+          </div>
+        </div>
+        <img class="avatar" src="img/avatar.png" alt="Andrey Odokienko" width="48" height="48">
+      </section>
+
+      <div class="bridge"></div>
+
+      <!-- CONTACT CTA -->
+      <a class="card seg" href="https://t.me/odokienkoan" target="_blank" rel="noopener">Say Hi via telegram →</a>
+
+      <div class="bridge"></div>
+
+      <!-- WHERE I'VE LEFT A MARK -->
+      <section class="card">
+        <h2 class="card-title">Where I've left a mark</h2>
+        <p class="marks">2pr.io / Raiffeisen Bank / VK / XYZ School / ROSGOSSTRAKH / Pinkman studio / VTB / Plastilin.tech / Oversecured / DUDAREV MOTORSPORT / Cloud.ru / BIANERO / Cuprum / HIPOLINK / M2VC</p>
+      </section>
+
+      <div class="bridge"></div>
+
+      <!-- WHAT I'M BUILDING NOW -->
+      <section class="card">
+        <div class="card-body">
+          <div class="status status--red">
+            <span class="dot"></span>
+            <span>Active project</span>
+          </div>
+          <div class="card-head">
+            <h2 class="card-title">What I'm building now</h2>
+            <p class="body">Right now it's PrepLab — an AI voice-interviewer that runs designers through real job interviews: HR screening and technical, in English, tuned to the role they're after. I own it end to end — product, design, growth — and I'm building it in the open.</p>
+          </div>
+        </div>
+        <img class="brand-logo" src="img/preplab-logo.svg" alt="PrepLab" width="80" height="16">
+      </section>
+
+      <div class="bridge"></div>
+
+      <!-- TRY PREPLAB CTA -->
+      <a class="card seg" href="https://preplab.ru" target="_blank" rel="noopener">Try PrepLab →</a>
+
+      <div class="bridge"></div>
+
+      <!-- WHERE I STAND -->
+      <section class="card">
+        <div class="card-head">
+          <h2 class="card-title">Where I stand</h2>
+          <p class="body">Design lost the plot. Too many designers polish buttons for half an hour, sit far from the business, and wait for someone to notice them. I go the other way.</p>
+        </div>
+        <ul class="rows">
+          <li>The result matters more than the pixel</li>
+          <li>A designer far from the business is decoration</li>
+          <li>Build the whole thing. Own the outcome. Sign it</li>
+          <li>A designer shouldn't be faceless</li>
+        </ul>
+      </section>
+
+      <div class="bridge"></div>
+
+      <!-- PRODUCTS I'VE SHIPPED -->
+      <section class="card">
+        <h2 class="card-title">Products I've shipped</h2>
+        <ul class="rows rows--links">
+          <li><a href="https://preplab.ru" target="_blank" rel="noopener">PrepLab — AI voice-interviewer →</a></li>
+          <li><a href="https://whiteboard.preplab.ru/" target="_blank" rel="noopener">UX Whiteboard Interview Knowledgebase →</a></li>
+          <li><a href="https://metrics.framer.wiki/" target="_blank" rel="noopener">Metrics Course for product designers →</a></li>
+          <li><a href="https://uxguide.framer.ai/" target="_blank" rel="noopener">AI-guide for UX/UI/product designers →</a></li>
+          <li><a href="https://release.framer.ai/" target="_blank" rel="noopener">Card game «Release» for IT-teams →</a></li>
+        </ul>
+      </section>
+
+      <div class="bridge"></div>
+
+      <!-- WORDS & CONTENT -->
+      <section class="card">
+        <h2 class="card-title">Words &amp; content</h2>
+        <ul class="rows rows--links">
+          <li><a href="https://t.me/designtwist" target="_blank" rel="noopener">Telegram blog →</a></li>
+          <li><a href="https://vc.ru/u/528995-andrey-odokienko" target="_blank" rel="noopener">Vc.ru articles →</a></li>
+          <li><a href="https://www.linkedin.com/in/odokienkoan/" target="_blank" rel="noopener">Linkedin →</a></li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
 </body>
+
 </html>
