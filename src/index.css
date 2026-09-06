@@ -1,34 +1,61 @@
 @import "tailwindcss";
 
-/*
- * Semantic design tokens.
- * Components only ever read the --color-* names below, never raw hex.
- * Swapping the theme = flipping [data-theme] on <html>; nothing else changes.
- * @theme inline makes utilities emit var(--…) so runtime theme swaps work.
- * (Full palette + light theme land in Step 2 / Step 7.)
- */
+/* ─────────────────────────────────────────────────────────────
+ * Design tokens
+ * Components read ONLY the semantic --color-* / --radius-* names.
+ * Theme swap = flip [data-theme] on <html>; nothing else changes.
+ * @theme inline → color utilities emit var(--…) so runtime swap works.
+ * Raw values live in the [data-theme] blocks below.
+ * ───────────────────────────────────────────────────────────── */
 @theme inline {
   --color-background: var(--bg);
   --color-surface: var(--surface);
   --color-primary: var(--text);
-  --color-muted: var(--text-muted);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
   --color-accent: var(--accent);
   --color-revenue: var(--revenue);
-  --color-border: var(--line);
+  --color-line: var(--line);
+}
+
+/* Static tokens (not theme-dependent) */
+@theme {
+  --font-sans: "Golos Text", "Golos UI", ui-sans-serif, system-ui, sans-serif;
+  --radius-card: 16px;
+  --radius-btn: 12px;
+  --radius-badge: 6px;
 }
 
 :root,
 [data-theme="dark"] {
-  --bg: #0a0a0a;
-  --surface: #141416;
-  --text: #f4f4f5;
-  --text-muted: #8b8b8f;
-  --accent: #2aabee;
-  --revenue: #4ade80;
-  --line: #202022;
+  --bg: #000000;
+  --surface: #151515;
+  --text: #ffffff;
+  --muted: #808080;
+  --faint: #484848;
+  --accent: #00a3f6;
+  --revenue: #0bc788;
+  --line: #484848;
 }
 
-html,
+/* Light theme is a first-pass inverse — refine with Andrey in Step 7. */
+[data-theme="light"] {
+  --bg: #ffffff;
+  --surface: #f4f4f5;
+  --text: #0a0a0a;
+  --muted: #6b6b70;
+  --faint: #a1a1aa;
+  --accent: #00a3f6;
+  --revenue: #0a9d6c;
+  --line: #e4e4e7;
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
 body {
   background: var(--bg);
   color: var(--text);
