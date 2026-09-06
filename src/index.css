@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+/*
+ * Semantic design tokens.
+ * Components only ever read the --color-* names below, never raw hex.
+ * Swapping the theme = flipping [data-theme] on <html>; nothing else changes.
+ * @theme inline makes utilities emit var(--…) so runtime theme swaps work.
+ * (Full palette + light theme land in Step 2 / Step 7.)
+ */
+@theme inline {
+  --color-background: var(--bg);
+  --color-surface: var(--surface);
+  --color-primary: var(--text);
+  --color-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-revenue: var(--revenue);
+  --color-border: var(--line);
+}
+
+:root,
+[data-theme="dark"] {
+  --bg: #0a0a0a;
+  --surface: #141416;
+  --text: #f4f4f5;
+  --text-muted: #8b8b8f;
+  --accent: #2aabee;
+  --revenue: #4ade80;
+  --line: #202022;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}

@@ -1,154 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Andrey Odokienko</title>
-  <meta name="description" content="Andrey Odokienko — designer by craft, founder by choice. I build my own products.">
-  <meta property="og:title" content="Andrey Odokienko">
-  <meta property="og:description" content="Designer by craft, founder by choice. I build my own products.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://odokienko.ru">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-  <div class="page">
-
-    <!-- Language toggle -->
-    <div class="toggle" role="group" aria-label="Language">
-      <button type="button" class="lang" data-lang="ru">RU</button>
-      <button type="button" class="lang is-active" data-lang="en" aria-current="true">EN</button>
-    </div>
-
-    <div class="stack">
-
-      <!-- HERO -->
-      <section class="card hero">
-        <div class="hero-top">
-          <div class="status status--green">
-            <span class="dot"></span>
-            <span data-ru="берусь только за интересные проекты">available for Interesting Projects Only</span>
-          </div>
-          <div class="hero-head">
-            <h1 class="card-title hero-title" data-ru="Привет, я Андрей Одокиенко.<br>Дизайнер по профессии — и фаундер по своему выбору">Hi, I'm Andrey Odokienko.<br>Designer by craft, founder by choice.</h1>
-            <p class="body" data-ru="Годами я делал чужие продукты — в банках, облаках и студиях. Потом перестал ждать, когда меня заметят, и начал запускать свои. Мне важен результат, а не красивая картинка. Что-то выстрелило, что-то нет — но всё это моё.">For years I designed other people's products — inside banks, clouds and studios. Then I stopped waiting to be noticed and started shipping my own. I care about the result, not the pixel. Some of my products took off, some died — all of them mine.</p>
-          </div>
-        </div>
-        <img class="avatar" src="img/avatar.png" alt="Andrey Odokienko" width="48" height="48">
-      </section>
-
-      <div class="bridge"></div>
-
-      <!-- CONTACT CTA -->
-      <a class="card seg" href="https://t.me/odokienkoan" target="_blank" rel="noopener" data-ru="Написать в телеграм →">Say Hi via telegram →</a>
-
-      <div class="bridge"></div>
-
-      <!-- WHERE I'VE LEFT A MARK -->
-      <section class="card">
-        <h2 class="card-title" data-ru="Где я оставил след">Where I've left a mark</h2>
-        <p class="marks">2pr.io / Raiffeisen Bank / VK / XYZ School / ROSGOSSTRAKH / Pinkman studio / VTB / Plastilin.tech / Oversecured / DUDAREV MOTORSPORT / Cloud.ru / BIANERO / Cuprum / HIPOLINK / M2VC</p>
-      </section>
-
-      <div class="bridge"></div>
-
-      <!-- WHAT I'M BUILDING NOW -->
-      <section class="card">
-        <div class="card-body">
-          <div class="status status--red">
-            <span class="dot"></span>
-            <span data-ru="Активный проект">Active project</span>
-          </div>
-          <div class="card-head">
-            <h2 class="card-title" data-ru="Что я строю сейчас">What I'm building now</h2>
-            <p class="body" data-ru="Сейчас я работаю над PrepLab — голосовым AI-интервьюером, который помогает дизайнерам готовиться к собеседованиям: HR-скрининг и техчасть под кастомные вакансии. Отвечаю за дизайн и рост, публично рассказываю про процесс.">Right now I'm working on PrepLab — an AI voice-interviewer that helps designers prepare for interviews: HR screening and technical, tuned to specific roles. I own design and growth, and I share the process in the open.</p>
-          </div>
-        </div>
-        <img class="brand-logo" src="img/preplab-logo.svg" alt="PrepLab" width="80" height="16">
-      </section>
-
-      <div class="bridge"></div>
-
-      <!-- TRY PREPLAB CTA -->
-      <a class="card seg" href="https://preplab.ru" target="_blank" rel="noopener" data-ru="Попробовать PrepLab →">Try PrepLab →</a>
-
-      <div class="bridge"></div>
-
-      <!-- WHERE I STAND -->
-      <section class="card">
-        <div class="card-head">
-          <h2 class="card-title" data-ru="Моя позиция">Where I stand</h2>
-          <p class="body" data-ru="Дизайн слишком часто занимается не тем. Многие полчаса вылизывают одну кнопку, сидят далеко от бизнеса и ждут, когда их заметят. Я иду другим путём.">Design lost the plot. Too many designers polish buttons for half an hour, sit far from the business, and wait for someone to notice them. I go the other way.</p>
-        </div>
-        <ul class="rows">
-          <li data-ru="Результат важнее красивого макета">The result matters more than the pixel</li>
-          <li data-ru="Дизайнер вдали от бизнеса — это украшение">A designer far from the business is decoration</li>
-          <li data-ru="Делай продукт целиком. Отвечай за результат">Build the whole thing. Own the outcome. Sign it</li>
-          <li data-ru="Дизайнер — не безымянный исполнитель">A designer shouldn't be faceless</li>
-        </ul>
-      </section>
-
-      <div class="bridge"></div>
-
-      <!-- PRODUCTS I'VE SHIPPED -->
-      <section class="card">
-        <h2 class="card-title" data-ru="Продукты, которые я запустил">Products I've shipped</h2>
-        <ul class="rows rows--links">
-          <li><a href="https://preplab.ru" target="_blank" rel="noopener" data-ru="PrepLab — голосовой AI-интервьюер →">PrepLab — AI voice-interviewer →</a></li>
-          <li><a href="https://whiteboard.preplab.ru/" target="_blank" rel="noopener" data-ru="База знаний по UX Whiteboard-интервью →">UX Whiteboard Interview Knowledgebase →</a></li>
-          <li><a href="https://metrics.framer.wiki/" target="_blank" rel="noopener" data-ru="Курс по метрикам для продуктовых дизайнеров →">Metrics Course for product designers →</a></li>
-          <li><a href="https://uxguide.framer.ai/" target="_blank" rel="noopener" data-ru="AI-гайд для UX/UI/продуктовых дизайнеров →">AI-guide for UX/UI/product designers →</a></li>
-          <li><a href="https://release.framer.ai/" target="_blank" rel="noopener" data-ru="Карточная игра «Release» для IT-команд →">Card game «Release» for IT-teams →</a></li>
-        </ul>
-      </section>
-
-      <div class="bridge"></div>
-
-      <!-- WORDS & CONTENT -->
-      <section class="card">
-        <h2 class="card-title" data-ru="Тексты и контент">Words &amp; content</h2>
-        <ul class="rows rows--links">
-          <li><a href="https://t.me/designtwist" target="_blank" rel="noopener" data-ru="Телеграм-блог →">Telegram blog →</a></li>
-          <li><a href="https://vc.ru/u/528995-andrey-odokienko" target="_blank" rel="noopener" data-ru="Статьи на vc.ru →">Vc.ru articles →</a></li>
-          <li><a href="https://www.linkedin.com/in/odokienkoan/" target="_blank" rel="noopener">Linkedin →</a></li>
-        </ul>
-      </section>
-
-    </div>
-  </div>
-
-  <script>
-    (function () {
-      var nodes = Array.prototype.slice.call(document.querySelectorAll('[data-ru]'));
-      nodes.forEach(function (el) { el.dataset.en = el.innerHTML; });
-      var btns = Array.prototype.slice.call(document.querySelectorAll('.lang'));
-      function setLang(lang) {
-        nodes.forEach(function (el) {
-          el.innerHTML = (lang === 'ru') ? el.dataset.ru : el.dataset.en;
-        });
-        btns.forEach(function (b) {
-          var on = b.dataset.lang === lang;
-          b.classList.toggle('is-active', on);
-          if (on) { b.setAttribute('aria-current', 'true'); } else { b.removeAttribute('aria-current'); }
-        });
-        document.documentElement.lang = lang;
-        try { localStorage.setItem('lang', lang); } catch (e) {}
-      }
-      btns.forEach(function (b) {
-        b.addEventListener('click', function () { setLang(b.dataset.lang); });
-      });
-      var saved = null;
-      try { saved = localStorage.getItem('lang'); } catch (e) {}
-      setLang(saved === 'ru' ? 'ru' : 'en');
-    })();
-  </script>
-</body>
-
+<!doctype html>
+<html lang="ru" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title>Андрей Одокиенко</title>
+    <!-- Theme no-flash script lands here in Step 7 -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
