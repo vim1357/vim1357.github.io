@@ -32,6 +32,8 @@ export type Experience = {
   description?: string
   period: string
   icon: string
+  /** "What I did / achieved" text revealed when the card is expanded */
+  blurb?: string
 }
 
 export type Social = {

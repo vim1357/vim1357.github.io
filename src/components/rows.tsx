@@ -1,4 +1,5 @@
-import { motion } from 'motion/react'
+import { useState } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import type { Contact, Experience, Product } from '../data/types'
 import { socials } from '../data/socials'
 import { AssetImg, ArrowUpRight } from './primitives'
@@ -45,21 +46,74 @@ function Revenue({ revenue }: { revenue: Product['revenue'] }) {
   )
 }
 
-/** Experience row — static (not a link). Icon + name | description … period. */
+/**
+ * Experience card — accordion. Default look is unchanged (no chevron/affordance);
+ * hover highlights the card, click expands to reveal `blurb` with a bouncy
+ * spring height + blur/opacity reveal (beui bouncy-accordion).
+ */
 export function ExperienceRow({ item }: { item: Experience }) {
+  const reduce = useReducedMotion()
+  const [open, setOpen] = useState(false)
+  const hasBlurb = Boolean(item.blurb)
+
+  const toggle = () => hasBlurb && setOpen((v) => !v)
+
   return (
-    <div className="flex items-center justify-between gap-3 bg-surface px-4 py-4">
-      <span className="flex min-w-0 items-center gap-2">
-        <AssetImg src={item.icon} className="h-5 w-5 shrink-0 rounded-[4px] object-contain" />
-        <span className="shrink-0 text-sm leading-5 text-primary">{item.name}</span>
-        {item.description && (
-          <>
-            <span className="h-5 w-px shrink-0 bg-line" aria-hidden />
-            <span className="truncate text-xs leading-4 text-faint">{item.description}</span>
-          </>
+    <div
+      role={hasBlurb ? 'button' : undefined}
+      tabIndex={hasBlurb ? 0 : undefined}
+      aria-expanded={hasBlurb ? open : undefined}
+      onClick={toggle}
+      onKeyDown={(e) => {
+        if (hasBlurb && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault()
+          toggle()
+        }
+      }}
+      className={`bg-surface px-4 py-4 transition-colors ${
+        hasBlurb ? 'cursor-pointer hover:bg-surface-2' : ''
+      }`}
+    >
+      <div className="flex items-center justify-between gap-3">
+        <span className="flex min-w-0 items-center gap-2">
+          <AssetImg src={item.icon} className="h-5 w-5 shrink-0 rounded-[4px] object-contain" />
+          <span className="shrink-0 text-sm leading-5 text-primary">{item.name}</span>
+          {item.description && (
+            <>
+              <span className="h-5 w-px shrink-0 bg-line" aria-hidden />
+              <span className="truncate text-xs leading-4 text-faint">{item.description}</span>
+            </>
+          )}
+        </span>
+        <span className="shrink-0 text-sm leading-5 text-muted">{item.period}</span>
+      </div>
+
+      <AnimatePresence initial={false}>
+        {open && item.blurb && (
+          <motion.div
+            key="blurb"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={
+              reduce
+                ? { duration: 0.15 }
+                : { type: 'spring', duration: 0.5, bounce: 0.3 }
+            }
+            style={{ overflow: 'hidden' }}
+          >
+            <motion.p
+              initial={reduce ? { opacity: 0 } : { opacity: 0, filter: 'blur(4px)' }}
+              animate={reduce ? { opacity: 1 } : { opacity: 1, filter: 'blur(0px)' }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="whitespace-pre-line pt-3 text-sm leading-5 text-muted"
+            >
+              {item.blurb}
+            </motion.p>
+          </motion.div>
         )}
-      </span>
-      <span className="shrink-0 text-sm leading-5 text-muted">{item.period}</span>
+      </AnimatePresence>
     </div>
   )
 }
