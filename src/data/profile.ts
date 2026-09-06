@@ -20,12 +20,12 @@ export const contacts: Contact[] = [
   {
     label: 'Позвать на онлайн-кофе (30 мин)',
     href: 'https://calendar.app.google/1tgJYEmpCFgDzKwg8',
-    icon: '/icons/gcal.png',
+    icon: '/icons/gcal.jpg',
   },
   {
     label: 'odokienkoan@gmail.com',
     href: 'mailto:odokienkoan@gmail.com',
-    icon: '/icons/gmail.png',
+    icon: '/icons/gmail.jpg',
   },
   {
     label: 'Написать в Telegram',
