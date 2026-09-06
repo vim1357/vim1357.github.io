@@ -1,40 +1,13 @@
 import { profile, contacts } from '../data/profile'
-import { AssetImg } from './primitives'
 import { ContactButton } from './rows'
 import { Stagger } from './motion'
-
-/**
- * Avatar — static poster + play glyph + duration badge.
- * The real click-to-play video (the 0:45 circle) is wired up in a later step.
- */
-function Avatar() {
-  return (
-    <div className="relative mx-auto h-[120px] w-[120px] lg:mx-0">
-      <div className="h-full w-full overflow-hidden rounded-full bg-surface">
-        <AssetImg
-          src={profile.avatar.poster}
-          alt={profile.name}
-          className="h-full w-full object-cover"
-        />
-      </div>
-      {/* subtle dark scrim so the play glyph stays legible */}
-      <span className="pointer-events-none absolute inset-0 grid place-items-center rounded-full bg-black/20">
-        <svg viewBox="0 0 24 24" className="h-6 w-6 text-white/90" aria-hidden>
-          <path d="M8 5v14l11-7z" fill="currentColor" />
-        </svg>
-      </span>
-      <span className="absolute bottom-1 right-1 rounded-badge bg-black/40 px-2 py-1 text-xs leading-none text-white">
-        {profile.avatar.duration}
-      </span>
-    </div>
-  )
-}
+import { AvatarPlayer } from './AvatarPlayer'
 
 export function Sidebar() {
   return (
     <aside className="w-full lg:sticky lg:top-8 lg:w-[360px] lg:flex-none lg:self-start">
       <Stagger className="flex flex-col gap-10" stagger={0.1} y={16}>
-        <Avatar />
+        <AvatarPlayer />
 
         <div className="flex flex-col gap-5">
           <div className="flex flex-col">

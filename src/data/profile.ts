@@ -10,7 +10,7 @@ export const profile = {
   ],
   // Avatar video (the 0:45 circle) is wired up in a later step.
   avatar: {
-    poster: '/content/avatar-poster.webp',
+    poster: '/content/avatar-poster.jpg',
     video: '/content/avatar.mp4',
     duration: '0:45',
   },
