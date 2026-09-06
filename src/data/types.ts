@@ -8,14 +8,20 @@ export type Contact = {
   accent?: boolean
 }
 
+/**
+ * Right-side revenue cell.
+ * `note` → muted text (e.g. "Выручка — пока тайна").
+ * `value` → green count-up number with literal prefix/suffix (e.g. "+", 700, "k ₽").
+ */
+export type Revenue =
+  | { kind: 'note'; text: string }
+  | { kind: 'value'; prefix?: string; value: number; suffix?: string }
+
 export type Product = {
   name: string
   href: string
   icon: string
-  /** Right-side value, e.g. "+700k ₽" or "Выручка — пока тайна" */
-  revenue: string
-  /** true → green revenue number; false → muted note */
-  revenueGreen: boolean
+  revenue: Revenue
 }
 
 export type Experience = {

@@ -3,6 +3,7 @@ import type { Contact, Experience, Product } from '../data/types'
 import { socials } from '../data/socials'
 import { AssetImg, ArrowUpRight } from './primitives'
 import { Stagger, TextReveal } from './motion'
+import { AnimatedNumber } from './AnimatedNumber'
 
 const isExternal = (href: string) => /^https?:/.test(href)
 
@@ -25,11 +26,22 @@ export function ProductRow({ item }: { item: Product }) {
         <AssetImg src={item.icon} className="h-5 w-5 shrink-0 rounded-[4px] object-contain" />
         <span className="truncate text-sm leading-5 text-primary">{item.name}</span>
       </span>
-      <TextReveal
-        text={item.revenue}
-        className={`shrink-0 text-sm leading-5 ${item.revenueGreen ? 'text-revenue' : 'text-muted'}`}
-      />
+      <Revenue revenue={item.revenue} />
     </motion.a>
+  )
+}
+
+/** Right-side revenue: muted note, or a green count-up number with prefix/suffix. */
+function Revenue({ revenue }: { revenue: Product['revenue'] }) {
+  if (revenue.kind === 'note') {
+    return <TextReveal text={revenue.text} className="shrink-0 text-sm leading-5 text-muted" />
+  }
+  return (
+    <span className="shrink-0 whitespace-nowrap text-sm leading-5 text-revenue">
+      {revenue.prefix}
+      <AnimatedNumber value={revenue.value} />
+      {revenue.suffix}
+    </span>
   )
 }
 

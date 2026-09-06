@@ -2,10 +2,12 @@ import { profile, contacts } from '../data/profile'
 import { ContactButton } from './rows'
 import { Stagger } from './motion'
 import { AvatarPlayer } from './AvatarPlayer'
+import { TopControls } from './TopControls'
 
 export function Sidebar() {
   return (
-    <aside className="w-full lg:sticky lg:top-8 lg:w-[360px] lg:flex-none lg:self-start">
+    <aside className="relative w-full lg:sticky lg:top-8 lg:w-[360px] lg:flex-none lg:self-start">
+      <TopControls className="absolute right-0 top-0 z-20" />
       <Stagger className="flex flex-col gap-10" stagger={0.1} y={16}>
         <AvatarPlayer />
 

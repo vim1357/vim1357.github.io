@@ -14,7 +14,13 @@
       rel="stylesheet"
     />
     <title>Андрей Одокиенко</title>
-    <!-- Theme no-flash script lands here in Step 7 -->
+    <script>
+      // No-flash: apply the saved theme before first paint (default stays dark).
+      try {
+        var t = localStorage.getItem('theme')
+        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t)
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
