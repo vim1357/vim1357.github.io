@@ -1,5 +1,6 @@
 import { Sidebar } from './components/Sidebar'
 import { Section, CardGroup } from './components/primitives'
+import { Stagger } from './components/motion'
 import { ProductRow, ExperienceRow, Socials } from './components/rows'
 import { products, productsSection } from './data/products'
 import { experience, experienceSection } from './data/experience'
@@ -35,13 +36,13 @@ export default function App() {
           </Section>
 
           <Section {...manifestoSection}>
-            <div className="flex flex-col gap-4">
+            <Stagger className="flex flex-col gap-4" y={16}>
               {manifesto.map((paragraph, i) => (
                 <p key={i} className="text-sm leading-5 text-muted">
                   {paragraph}
                 </p>
               ))}
-            </div>
+            </Stagger>
           </Section>
         </div>
       </main>

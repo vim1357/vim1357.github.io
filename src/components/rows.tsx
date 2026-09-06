@@ -1,6 +1,8 @@
+import { motion } from 'motion/react'
 import type { Contact, Experience, Product } from '../data/types'
 import { socials } from '../data/socials'
 import { AssetImg, ArrowUpRight } from './primitives'
+import { Stagger, TextReveal } from './motion'
 
 const isExternal = (href: string) => /^https?:/.test(href)
 
@@ -13,21 +15,21 @@ function extAttrs(href: string) {
 /** Product row — whole row is a link. Icon + name … revenue. */
 export function ProductRow({ item }: { item: Product }) {
   return (
-    <a
+    <motion.a
       href={item.href}
       {...extAttrs(item.href)}
+      whileTap={{ scale: 0.985 }}
       className="flex items-center justify-between gap-3 bg-surface px-4 py-4 transition-colors hover:bg-surface-2"
     >
       <span className="flex min-w-0 items-center gap-2">
         <AssetImg src={item.icon} className="h-5 w-5 shrink-0 rounded-[4px] object-contain" />
         <span className="truncate text-sm leading-5 text-primary">{item.name}</span>
       </span>
-      <span
+      <TextReveal
+        text={item.revenue}
         className={`shrink-0 text-sm leading-5 ${item.revenueGreen ? 'text-revenue' : 'text-muted'}`}
-      >
-        {item.revenue}
-      </span>
-    </a>
+      />
+    </motion.a>
   )
 }
 
@@ -53,10 +55,11 @@ export function ExperienceRow({ item }: { item: Experience }) {
 /** Contact button — surface or accent (Telegram-blue) variant. */
 export function ContactButton({ item }: { item: Contact }) {
   return (
-    <a
+    <motion.a
       href={item.href}
       {...extAttrs(item.href)}
-      className={`flex items-center justify-between gap-2 rounded-btn px-4 py-[10px] transition-colors ${
+      whileTap={{ scale: 0.99 }}
+      className={`group flex items-center justify-between gap-2 rounded-btn px-4 py-[10px] transition-colors ${
         item.accent
           ? 'bg-accent text-white hover:brightness-95'
           : 'bg-surface text-primary hover:bg-surface-2'
@@ -66,27 +69,29 @@ export function ContactButton({ item }: { item: Contact }) {
         <AssetImg src={item.icon} className="h-6 w-6 shrink-0 object-contain" />
         <span className="truncate text-sm leading-5">{item.label}</span>
       </span>
-      <ArrowUpRight className="h-5 w-5 shrink-0" />
-    </a>
+      <ArrowUpRight className="h-5 w-5 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+    </motion.a>
   )
 }
 
 /** Row of social icon links. */
 export function Socials() {
   return (
-    <div className="flex flex-wrap gap-3">
+    <Stagger className="flex flex-wrap gap-3" stagger={0.06} y={12}>
       {socials.map((s) => (
-        <a
+        <motion.a
           key={s.name}
           href={s.href}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={s.name}
-          className="transition-transform hover:-translate-y-0.5"
+          whileHover={{ y: -2 }}
+          whileTap={{ scale: 0.94 }}
+          className="inline-block"
         >
           <AssetImg src={s.icon} alt={s.name} className="h-8 w-8 rounded-[8px] object-contain" />
-        </a>
+        </motion.a>
       ))}
-    </div>
+    </Stagger>
   )
 }

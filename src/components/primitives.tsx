@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import type { SectionMeta } from '../data/types'
+import { Reveal, Stagger } from './motion'
 
 /** Section header (title + optional multi-line subtitle) with its content below. */
 export function Section({
@@ -9,12 +10,12 @@ export function Section({
 }: SectionMeta & { children: ReactNode }) {
   return (
     <section className="flex w-full flex-col gap-4">
-      <header className="flex flex-col gap-2">
+      <Reveal className="flex flex-col gap-2">
         <h2 className="text-lg font-bold leading-5 text-primary">{title}</h2>
         {subtitle && (
           <p className="whitespace-pre-line text-sm leading-5 text-muted">{subtitle}</p>
         )}
-      </header>
+      </Reveal>
       {children}
     </section>
   )
@@ -27,7 +28,7 @@ export function Section({
  */
 export function CardGroup({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-0.5 overflow-hidden rounded-card">{children}</div>
+    <Stagger className="flex flex-col gap-0.5 overflow-hidden rounded-card">{children}</Stagger>
   )
 }
 

@@ -1,6 +1,7 @@
 import { profile, contacts } from '../data/profile'
 import { AssetImg } from './primitives'
 import { ContactButton } from './rows'
+import { Stagger } from './motion'
 
 /**
  * Avatar — static poster + play glyph + duration badge.
@@ -8,7 +9,7 @@ import { ContactButton } from './rows'
  */
 function Avatar() {
   return (
-    <div className="relative h-[120px] w-[120px] self-center lg:self-start">
+    <div className="relative mx-auto h-[120px] w-[120px] lg:mx-0">
       <div className="h-full w-full overflow-hidden rounded-full bg-surface">
         <AssetImg
           src={profile.avatar.poster}
@@ -31,26 +32,28 @@ function Avatar() {
 
 export function Sidebar() {
   return (
-    <aside className="flex w-full flex-col gap-10 lg:sticky lg:top-8 lg:w-[360px] lg:flex-none lg:self-start">
-      <Avatar />
+    <aside className="w-full lg:sticky lg:top-8 lg:w-[360px] lg:flex-none lg:self-start">
+      <Stagger className="flex flex-col gap-10" stagger={0.1} y={16}>
+        <Avatar />
 
-      <div className="flex flex-col gap-5">
-        <div className="flex flex-col">
-          <p className="text-sm leading-5 text-primary">{profile.name}</p>
-          <p className="whitespace-pre-line text-sm leading-5 text-muted">{profile.tagline}</p>
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-col">
+            <p className="text-sm leading-5 text-primary">{profile.name}</p>
+            <p className="whitespace-pre-line text-sm leading-5 text-muted">{profile.tagline}</p>
+          </div>
+          {profile.bio.map((paragraph, i) => (
+            <p key={i} className="text-sm leading-5 text-primary">
+              {paragraph}
+            </p>
+          ))}
         </div>
-        {profile.bio.map((paragraph, i) => (
-          <p key={i} className="text-sm leading-5 text-primary">
-            {paragraph}
-          </p>
-        ))}
-      </div>
 
-      <div className="flex flex-col gap-2">
-        {contacts.map((c) => (
-          <ContactButton key={c.label} item={c} />
-        ))}
-      </div>
+        <div className="flex flex-col gap-2">
+          {contacts.map((c) => (
+            <ContactButton key={c.label} item={c} />
+          ))}
+        </div>
+      </Stagger>
     </aside>
   )
 }
