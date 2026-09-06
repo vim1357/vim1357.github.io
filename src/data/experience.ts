@@ -7,7 +7,7 @@ export const experienceSection: SectionMeta = {
 
 // Not clickable for now (per Andrey) — no href field.
 export const experience: Experience[] = [
-  { name: 'EasyMiles', description: 'Тревел AI-компаньон', period: '2026', icon: '/icons/easymiles.jpg' },
+  { name: 'EasyMiles', description: 'Тревел AI-компаньон', period: '2026', icon: '/icons/easymiles.png' },
   { name: 'Oversecured', description: 'AppSec B2B SaaS', period: '2025-now', icon: '/icons/oversecured.svg' },
   { name: 'PLASTILIN', description: 'AgroTech B2B SaaS', period: '2025-2026', icon: '/icons/plastilin.svg' },
   { name: 'm2vc', description: 'Венчурный фонд', period: '2025', icon: '/icons/m2vc.svg' },
