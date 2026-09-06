@@ -69,7 +69,7 @@ export function ContactButton({ item }: { item: Contact }) {
         <AssetImg src={item.icon} className="h-6 w-6 shrink-0 object-contain" />
         <span className="truncate text-sm leading-5">{item.label}</span>
       </span>
-      <ArrowUpRight className="h-5 w-5 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+      <ArrowUpRight className="h-5 w-5 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-1 group-hover:rotate-45" />
     </motion.a>
   )
 }

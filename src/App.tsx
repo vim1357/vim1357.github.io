@@ -1,4 +1,5 @@
 import { Sidebar } from './components/Sidebar'
+import { SmoothScroll } from './components/SmoothScroll'
 import { Section, CardGroup } from './components/primitives'
 import { Stagger } from './components/motion'
 import { ProductRow, ExperienceRow, Socials } from './components/rows'
@@ -11,6 +12,7 @@ import { designExperienceSubtitle } from './lib/experience'
 export default function App() {
   return (
     <div className="min-h-screen bg-background text-primary">
+      <SmoothScroll />
       <main className="mx-auto flex max-w-[860px] flex-col gap-16 px-6 py-8 lg:flex-row lg:items-start lg:gap-[100px] lg:py-8">
         <Sidebar />
 

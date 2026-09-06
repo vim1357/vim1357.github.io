@@ -115,7 +115,7 @@ export function AvatarPlayer() {
     mode === 'playing' ? 'Пауза' : mode === 'ended' ? 'Смотреть заново' : 'Смотреть со звуком'
 
   return (
-    <div className="relative mx-auto h-[120px] w-[120px] lg:mx-0">
+    <div className="relative h-[120px] w-[120px]">
       <button
         type="button"
         onClick={handleClick}
