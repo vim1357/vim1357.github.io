@@ -2,9 +2,7 @@ import type { Experience, SectionMeta } from './types'
 
 export const experienceSection: SectionMeta = {
   title: 'Опыт в найме и проектах',
-  // NOTE: "ХХ лет ХХ месяцев ХХ дней" is a placeholder in the Figma —
-  // likely a live counter from a start date. Kept literal for now; confirm with Andrey.
-  subtitle: 'Я в дизайне уже ХХ лет ХХ месяцев ХХ дней\nСобрал тут только самое значимое',
+  // Subtitle is computed live from 1 Sept 2019 — see lib/experience.ts (designExperienceSubtitle).
 }
 
 // Not clickable for now (per Andrey) — no href field.

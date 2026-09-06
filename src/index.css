@@ -10,6 +10,7 @@
 @theme inline {
   --color-background: var(--bg);
   --color-surface: var(--surface);
+  --color-surface-2: var(--surface2);
   --color-primary: var(--text);
   --color-muted: var(--muted);
   --color-faint: var(--faint);
@@ -30,6 +31,7 @@
 [data-theme="dark"] {
   --bg: #000000;
   --surface: #151515;
+  --surface2: #1e1e1e;
   --text: #ffffff;
   --muted: #808080;
   --faint: #484848;
@@ -42,6 +44,7 @@
 [data-theme="light"] {
   --bg: #ffffff;
   --surface: #f4f4f5;
+  --surface2: #e9e9ec;
   --text: #0a0a0a;
   --muted: #6b6b70;
   --faint: #a1a1aa;
