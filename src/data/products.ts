@@ -22,18 +22,18 @@ export const products: Product[] = [
     name: 'AI-гайд для дизайнеров',
     href: 'https://uxguide.framer.ai/',
     icon: '/icons/ai-guide.svg',
-    revenue: { kind: 'value', prefix: '+', value: 270, suffix: 'k+ ₽' },
+    revenue: { kind: 'value', prefix: '+', value: 270, suffix: 'k ₽' },
   },
   {
     name: 'Курс по метрикам для дизайнеров',
     href: 'https://metrics.framer.wiki/',
     icon: '/icons/metrics.png',
-    revenue: { kind: 'value', prefix: '+', value: 300, suffix: 'k+ ₽' },
+    revenue: { kind: 'value', prefix: '+', value: 300, suffix: 'k ₽' },
   },
   {
     name: 'Карточная игра «Релиз»',
     href: 'https://release.framer.ai/',
     icon: '/icons/release.svg',
-    revenue: { kind: 'value', prefix: '+', value: 200, suffix: 'k+ ₽' },
+    revenue: { kind: 'value', prefix: '+', value: 200, suffix: 'k ₽' },
   },
 ]

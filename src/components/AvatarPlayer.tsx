@@ -143,7 +143,7 @@ export function AvatarPlayer() {
       </button>
 
       <div className="pointer-events-none absolute -bottom-1 left-1/2 flex -translate-x-1/2 items-center gap-0.5">
-        <span className={pill}>{fmt(remaining)}</span>
+        <span className={`${pill} w-12 justify-center tabular-nums`}>{fmt(remaining)}</span>
         <span className={pill} title="Просмотры">
           <svg viewBox="0 0 24 24" className="mr-1 h-3.5 w-3.5" fill="none" aria-hidden>
             <path

@@ -84,7 +84,7 @@ export function ContactButton({ item }: { item: Contact }) {
           {item.note && <span className="text-muted"> {item.note}</span>}
         </span>
       </span>
-      <ArrowUpRight className="h-5 w-5 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-1 group-hover:rotate-45" />
+      <ArrowUpRight className="h-5 w-5 shrink-0 transition-transform duration-200 ease-out group-hover:rotate-45" />
     </motion.a>
   )
 }
