@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import type { SectionMeta } from '../data/types'
 import { Reveal, Stagger } from './motion'
+import { themedIcons } from './BrandIcon'
 
 /** Section header (title + optional multi-line subtitle) with its content below. */
 export function Section({
@@ -43,6 +44,8 @@ export function AssetImg({
   className?: string
 }) {
   const [ok, setOk] = useState(true)
+  const Themed = themedIcons[src]
+  if (Themed) return <Themed className={className} />
   if (!ok) return <span className={className} aria-hidden />
   return (
     <img
