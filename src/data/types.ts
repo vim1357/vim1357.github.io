@@ -2,6 +2,8 @@ export type SectionMeta = { title: string; subtitle?: string }
 
 export type Contact = {
   label: string
+  /** Muted trailing note after the label, e.g. "(30 мин)" */
+  note?: string
   href: string
   icon: string
   /** Telegram-blue highlighted button */
