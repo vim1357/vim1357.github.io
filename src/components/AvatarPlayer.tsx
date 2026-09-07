@@ -1,8 +1,46 @@
 import { useEffect, useRef, useState } from 'react'
+import { animate, useReducedMotion } from 'motion/react'
 import { profile } from '../data/profile'
 import { getViews, hitViews } from '../lib/counter'
 
 type Mode = 'idle' | 'playing' | 'paused' | 'ended'
+
+const EASE_OUT = [0.22, 1, 0.36, 1] as const
+
+/**
+ * Views number with a "loading" roll. While value is null (request in flight)
+ * it climbs upward like a calm odometer; when the real value lands it eases to
+ * it from wherever the roll is (same count-up feel as the revenue numbers).
+ * No misleading `0`, no local cache. Reduced motion → show value, else 0.
+ */
+function ViewsCount({ value }: { value: number | null }) {
+  const reduce = useReducedMotion()
+  const [display, setDisplay] = useState(0)
+  const current = useRef(0)
+
+  useEffect(() => {
+    if (reduce) {
+      if (value != null) {
+        current.current = value
+        setDisplay(value)
+      }
+      return
+    }
+    const onUpdate = (v: number) => {
+      current.current = v
+      setDisplay(Math.round(v))
+    }
+    const controls =
+      value == null
+        ? // loading: mechanical climb, loops if the request is unusually slow
+          animate(0, 99, { duration: 2.4, ease: 'linear', repeat: Infinity, onUpdate })
+        : // landed: organic settle to the true value, like the revenue count-up
+          animate(current.current, value, { duration: 0.9, ease: EASE_OUT, onUpdate })
+    return () => controls.stop()
+  }, [value, reduce])
+
+  return <span className="tabular-nums">{display}</span>
+}
 
 function fmt(sec: number): string {
   if (!isFinite(sec) || sec < 0) sec = 0
@@ -154,7 +192,7 @@ export function AvatarPlayer() {
             />
             <circle cx="12" cy="12" r="2.6" stroke="currentColor" strokeWidth="2" />
           </svg>
-          {views ?? 0}
+          <ViewsCount value={views} />
         </span>
       </div>
     </div>
