@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Golos UI — self-hosted variable font (weight 400–700), all weights in one file */
+@font-face {
+  font-family: "Golos UI";
+  src: url("./assets/fonts/golos-ui_vf.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ─────────────────────────────────────────────────────────────
  * Design tokens
  * Components read ONLY the semantic --color-* / --radius-* names.
@@ -21,7 +30,7 @@
 
 /* Static tokens (not theme-dependent) */
 @theme {
-  --font-sans: "Golos Text", "Golos UI", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Golos UI", ui-sans-serif, system-ui, sans-serif;
   --radius-card: 16px;
   --radius-btn: 12px;
   --radius-badge: 6px;
