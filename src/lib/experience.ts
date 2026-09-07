@@ -31,6 +31,6 @@ export function designExperienceSubtitle(now: Date = new Date()): string {
     `Я в дизайне уже ${y} ${plural(y, YEARS as [string, string, string])} ` +
     `${m} ${plural(m, MONTHS as [string, string, string])} ` +
     `${d} ${plural(d, DAYS as [string, string, string])}\n` +
-    `Собрал тут только самое значимое`
+    `Собрал тут только самое значимое. Детали по клику`
   )
 }
