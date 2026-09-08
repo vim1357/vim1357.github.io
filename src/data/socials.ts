@@ -2,7 +2,7 @@ import type { Social, SectionMeta } from './types'
 
 export const socialsSection: SectionMeta = {
   title: 'Где меня можно найти',
-  subtitle: 'Сейчас я живу в Тбилиси (🇬🇪 Грузия), но есть немало мест, где можно почитать мой контент',
+  subtitle: 'Сейчас я живу в Екатеринбурге, но есть немало мест, где можно почитать мой контент',
 }
 
 export const socials: Social[] = [
