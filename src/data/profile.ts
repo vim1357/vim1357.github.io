@@ -20,7 +20,7 @@ export const contacts: Contact[] = [
   {
     label: 'Позвать на онлайн-кофе',
     note: '(30 мин)',
-    href: 'https://calendar.app.google/1tgJYEmpCFgDzKwg8',
+    href: 'https://calendar.app.google/7kruWUsvVVQCns2e9',
     icon: '/icons/gcal.png',
   },
   {
