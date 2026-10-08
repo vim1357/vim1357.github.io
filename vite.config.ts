@@ -6,4 +6,10 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   base: '/',
   plugins: [react(), tailwindcss()],
+  // Second page: the gradient generator at /gradient/.
+  build: {
+    rollupOptions: {
+      input: { main: 'index.html', gradient: 'gradient/index.html' },
+    },
+  },
 })
