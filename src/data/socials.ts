@@ -11,4 +11,5 @@ export const socials: Social[] = [
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/odokienkoan/', icon: '/icons/social-linkedin.svg' },
   { name: 'Telegram', href: 'https://t.me/designtwist', icon: '/icons/social-telegram.svg' },
   { name: 'Instagram', href: 'https://www.instagram.com/odokienko_an/', icon: '/icons/social-instagram.svg' },
+  { name: 'Threads', href: 'https://www.threads.com/@odokienko_an', icon: '/icons/social-threads.svg' },
 ]
