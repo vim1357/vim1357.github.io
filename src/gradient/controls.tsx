@@ -226,6 +226,41 @@ export function NumberField({
   )
 }
 
+/** A row that picks one colour of the palette by its swatch. */
+export function SwatchPick({
+  label,
+  colors,
+  value,
+  onChange,
+}: {
+  label: string
+  colors: Swatch[]
+  value: number
+  onChange: (index: number) => void
+}) {
+  return (
+    <div className="flex h-11 items-center justify-between gap-3 bg-surface px-4 text-sm leading-5">
+      <span className="truncate text-primary">{label}</span>
+      <div role="radiogroup" aria-label={label} className="flex shrink-0 gap-1.5">
+        {colors.map((c, i) => (
+          <button
+            key={c.id}
+            type="button"
+            role="radio"
+            aria-checked={i === value}
+            aria-label={i === 0 ? `Фон, ${c.hex}` : c.hex}
+            onClick={() => onChange(i)}
+            style={{ backgroundColor: c.hex }}
+            className={`h-6 w-6 rounded-full border border-faint transition-shadow ${FOCUS} ${
+              i === value ? 'shadow-[0_0_0_2px_var(--surface),0_0_0_4px_var(--text)]' : ''
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 /** Drag-to-reorder list of colours: picker swatch, hex field, remove. */
 export function ColorList({
   colors,
@@ -366,6 +401,12 @@ export const Dice = () => (
   <Icon>
     <rect x="4" y="4" width="16" height="16" rx="4" />
     <path d="M9 9h.01M15 9h.01M12 12h.01M9 15h.01M15 15h.01" strokeWidth="2.2" />
+  </Icon>
+)
+export const Shake = () => (
+  <Icon>
+    <circle cx="12" cy="12" r="4.5" />
+    <path d="M4.5 8c-1.2 2.5-1.2 5.5 0 8M19.5 8c1.2 2.5 1.2 5.5 0 8" />
   </Icon>
 )
 export const Undo = () => (

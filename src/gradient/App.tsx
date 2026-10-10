@@ -17,23 +17,36 @@ import {
   Redo,
   Rows,
   Segmented,
+  Shake,
   Slider,
+  SwatchPick,
   Undo,
 } from './controls'
-import { placeBlob, randomAll, randomColors, randomLayout } from './random'
+import { placeBlob, randomAll, randomColors, randomLayout, rerollBlob, shakeBlobs } from './random'
 import { Renderer, renderToBlob, type ExportType } from './renderer'
 import { MAX_BLOBS, MAX_COLORS } from './shader'
-import { DEFAULT_STATE, RANGE, STEP, decode, encode, swatch, type Form, type NumKey, type State } from './state'
+import {
+  BLOB_RANGE,
+  DEFAULT_STATE,
+  RANGE,
+  STEP,
+  decode,
+  encode,
+  swatch,
+  type Blob,
+  type Form,
+  type NumKey,
+  type State,
+} from './state'
 
 const pct = (v: number) => `${Math.round(v * 100)}%`
 const times = (v: number) => `×${v.toFixed(2)}`
 
 const FORM_OPTIONS: readonly { value: Form; label: string }[] = [
-  { value: 'blobs', label: 'Блобы' },
-  { value: 'beam', label: 'Луч' },
-  { value: 'wave', label: 'Волны' },
+  { value: 'mesh', label: 'Меш' },
+  { value: 'blobs', label: 'Фигуры' },
+  { value: 'ribbon', label: 'Лента' },
   { value: 'folds', label: 'Складки' },
-  { value: 'conic', label: 'Конус' },
 ]
 
 const SLIDERS: Record<
@@ -42,12 +55,14 @@ const SLIDERS: Record<
 > = {
   scale: { label: 'Размер', format: pct },
   soft: { label: 'Мягкость', format: pct },
-  stretch: { label: 'Вытянутость', format: times },
   angle: { label: 'Угол', format: (v) => `${Math.round(v)}°` },
-  curve: { label: 'Кривизна', format: (v) => `${v > 0 ? '+' : ''}${Math.round(v * 100)}%` },
+  taper: { label: 'Раскрытие', format: pct },
   amp: { label: 'Амплитуда', format: pct },
   freq: { label: 'Частота', format: times },
-  rays: { label: 'Лучи', format: (v) => String(Math.round(v)) },
+  count: { label: 'Количество', format: (v) => String(Math.round(v)) },
+  depth: { label: 'Объём', format: pct },
+  stretch: { label: 'Вытянутость', format: times },
+  focus: { label: 'Расфокус', format: pct },
   warp: { label: 'Искажение', format: pct },
   detail: { label: 'Детальность', format: times },
   grain: { label: 'Зерно', format: pct },
@@ -55,14 +70,36 @@ const SLIDERS: Record<
 }
 type SliderKey = keyof typeof SLIDERS
 
-/** Which shape sliders each form shows, and what "scale" means for it. */
-const FORM_SLIDERS: Record<Form, { keys: SliderKey[]; scale?: string }> = {
-  blobs: { keys: ['scale', 'soft', 'stretch', 'angle'] },
-  beam: { keys: ['scale', 'soft', 'curve', 'angle'], scale: 'Длина' },
-  wave: { keys: ['scale', 'soft', 'amp', 'freq', 'angle'], scale: 'Шаг слоёв' },
-  folds: { keys: ['scale', 'soft', 'angle'], scale: 'Шаг' },
-  conic: { keys: ['rays', 'soft', 'angle'] },
+/** Which shape sliders each form shows, and what it calls them when the general name is off. */
+const FORM_SLIDERS: Record<Form, { keys: SliderKey[]; labels?: Partial<Record<SliderKey, string>> }> = {
+  blobs: { keys: ['scale', 'focus'], labels: { scale: 'Общий размер' } },
+  ribbon: {
+    keys: ['scale', 'taper', 'soft', 'focus', 'amp', 'freq', 'angle'],
+    labels: { scale: 'Ширина', soft: 'Мягкость края', amp: 'Изгиб' },
+  },
+  mesh: {
+    keys: ['amp', 'depth', 'soft', 'focus', 'freq', 'stretch', 'angle', 'scale'],
+    labels: { amp: 'Складки', soft: 'Мягкость сгиба', freq: 'Частота складок', scale: 'Размер пятен' },
+  },
+  folds: {
+    keys: ['count', 'soft', 'focus', 'amp', 'freq', 'angle'],
+    labels: { soft: 'Мягкость сгиба', amp: 'Изгиб' },
+  },
 }
+
+/** Sliders of one shape. Its angle is kept in radians and shown in degrees. */
+const BLOB_SLIDERS: readonly {
+  key: keyof typeof BLOB_RANGE
+  label: string
+  step: number
+  format: (v: number) => string
+}[] = [
+  { key: 'r', label: 'Размер', step: 0.01, format: pct },
+  { key: 'st', label: 'Вытянутость', step: 0.05, format: times },
+  { key: 'a', label: 'Поворот', step: Math.PI / 180, format: (v) => `${Math.round((v * 180) / Math.PI)}°` },
+  { key: 'soft', label: 'Мягкость', step: 0.01, format: pct },
+  { key: 'edge', label: 'Резкий край', step: 0.01, format: pct },
+]
 
 const SIZES = [
   { value: '1920x1080', label: '16:9' },
@@ -94,6 +131,8 @@ export default function App() {
   const [busy, setBusy] = useState(false)
   const [note, setNote] = useState<string | null>(null)
   const [unsupported, setUnsupported] = useState(false)
+  // Which shape the panel is editing; picked by touching it on the canvas.
+  const [picked, setPicked] = useState(0)
 
   const set = (patch: Partial<State>) => setState((s) => ({ ...s, ...patch }))
 
@@ -203,6 +242,7 @@ export default function App() {
         if (blob < 0 || dist(i) < dist(blob)) blob = i
       })
     }
+    if (blob >= 0) setPicked(blob)
     drag.current = { ...p, blob }
   }
   const onPointerMove = (e: PointerEvent<HTMLCanvasElement>) => {
@@ -228,9 +268,14 @@ export default function App() {
 
   const setBlobCount = (n: number) => {
     const blobs = state.blobs.slice(0, n)
-    while (blobs.length < n) blobs.push(placeBlob(blobs))
+    while (blobs.length < n) blobs.push(placeBlob(blobs, state.colors.length, state))
     set({ blobs })
   }
+
+  const blobIndex = Math.min(picked, state.blobs.length - 1)
+  const blob = state.blobs[blobIndex]
+  const setBlob = (patch: Partial<Blob>) =>
+    set({ blobs: state.blobs.map((b, i) => (i === blobIndex ? { ...b, ...patch } : b)) })
 
   const addColor = () =>
     set({ colors: [...state.colors, swatch(shiftHue(state.colors[state.colors.length - 1].hex, 40))] })
@@ -312,7 +357,7 @@ export default function App() {
                   className="cursor-grab touch-none rounded-card active:cursor-grabbing"
                 />
                 <p className="text-center text-xs leading-4 text-muted">
-                  {state.w} × {state.h} · {state.form === 'blobs' ? 'блобы' : 'композицию'} можно двигать
+                  {state.w} × {state.h} · {state.form === 'blobs' ? 'фигуры' : 'композицию'} можно двигать
                   прямо на холсте
                 </p>
               </>
@@ -364,9 +409,16 @@ export default function App() {
           <Panel
             title="Форма"
             actions={
-              <IconButton size="sm" label="Другая композиция" onClick={() => shuffle(randomLayout)}>
-                <Dice />
-              </IconButton>
+              <>
+                {state.form === 'blobs' && (
+                  <IconButton size="sm" label="Встряхнуть фигуры" onClick={() => shuffle(shakeBlobs)}>
+                    <Shake />
+                  </IconButton>
+                )}
+                <IconButton size="sm" label="Другая композиция" onClick={() => shuffle(randomLayout)}>
+                  <Dice />
+                </IconButton>
+              </>
             }
           >
             <Segmented
@@ -387,9 +439,53 @@ export default function App() {
                   onChange={setBlobCount}
                 />
               )}
-              {formSliders.keys.map((key) => slider(key, key === 'scale' ? formSliders.scale : undefined))}
+              {formSliders.keys.map((key) => slider(key, formSliders.labels?.[key]))}
             </Rows>
           </Panel>
+
+          {state.form === 'blobs' && blob && (
+            <Panel
+              title="Фигура"
+              actions={
+                <IconButton size="sm" label="Другая фигура" onClick={() => shuffle((s) => rerollBlob(s, blobIndex))}>
+                  <Dice />
+                </IconButton>
+              }
+            >
+              <Segmented
+                label="Фигура"
+                options={state.blobs.map((_, i) => ({ value: i, label: String(i + 1) }))}
+                value={blobIndex}
+                onChange={setPicked}
+              />
+              <Rows>
+                {BLOB_SLIDERS.map(({ key, label, step, format }) => (
+                  <Slider
+                    key={key}
+                    label={label}
+                    value={blob[key]}
+                    min={BLOB_RANGE[key][0]}
+                    max={BLOB_RANGE[key][1]}
+                    step={step}
+                    format={format}
+                    onChange={(v) => setBlob({ [key]: v })}
+                  />
+                ))}
+                <SwatchPick
+                  label="Цвет у края"
+                  colors={state.colors}
+                  value={blob.c1}
+                  onChange={(c1) => setBlob({ c1 })}
+                />
+                <SwatchPick
+                  label="Цвет в хвосте"
+                  colors={state.colors}
+                  value={blob.c2}
+                  onChange={(c2) => setBlob({ c2 })}
+                />
+              </Rows>
+            </Panel>
+          )}
 
           <Panel
             title="Цвета"

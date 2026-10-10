@@ -3,9 +3,9 @@ import { FRAG, MAX_BLOBS, MAX_COLORS, VERT } from './shader'
 import { FORMS, type State } from './state'
 
 const UNIFORMS = [
-  'uRes', 'uTile', 'uForm', 'uN', 'uCol', 'uBlobN', 'uBlob', 'uCenter', 'uOff', 'uPhase',
-  'uScale', 'uSoft', 'uWarp', 'uDetail', 'uAngle', 'uCurve', 'uAmp', 'uFreq', 'uRays',
-  'uStretch', 'uGrain', 'uGrainSize', 'uGrainOct',
+  'uRes', 'uTile', 'uForm', 'uN', 'uCol', 'uBlobN', 'uBlob', 'uBlobB', 'uBlobC', 'uCenter', 'uOff',
+  'uPhase', 'uScale', 'uSoft', 'uWarp', 'uDetail', 'uAngle', 'uTaper', 'uAmp', 'uFreq', 'uFocus',
+  'uCount', 'uSpan', 'uDepth', 'uStretch', 'uGrain', 'uGrainSize', 'uGrainOct',
 ] as const
 
 const RAD = Math.PI / 180
@@ -88,7 +88,15 @@ export class Renderer {
 
     const blobs = s.blobs.slice(0, MAX_BLOBS)
     const blob = new Float32Array(MAX_BLOBS * 4)
-    blobs.forEach((b, i) => blob.set([...toP(b.x, b.y), b.r, b.a + s.angle * RAD], i * 4))
+    const blobB = new Float32Array(MAX_BLOBS * 4).fill(1)
+    const blobC = new Int32Array(MAX_BLOBS * 2)
+    // A colour removed from the palette leaves its shapes on the last one that is left.
+    const index = (c: number) => Math.min(c, colors.length - 1)
+    blobs.forEach((b, i) => {
+      blob.set([...toP(b.x, b.y), b.r, b.a], i * 4)
+      blobB.set([b.st, b.soft, b.edge], i * 4)
+      blobC.set([index(b.c1), index(b.c2)], i * 2)
+    })
 
     const rand = mulberry32(s.seed)
 
@@ -100,6 +108,8 @@ export class Renderer {
     gl.uniform3fv(u.uCol, col)
     gl.uniform1i(u.uBlobN, blobs.length)
     gl.uniform4fv(u.uBlob, blob)
+    gl.uniform4fv(u.uBlobB, blobB)
+    gl.uniform2iv(u.uBlobC, blobC)
     gl.uniform2fv(u.uCenter, toP(s.cx, s.cy))
     gl.uniform2f(u.uOff, rand() * 100, rand() * 100)
     gl.uniform1f(u.uPhase, rand() * Math.PI * 2)
@@ -108,14 +118,21 @@ export class Renderer {
     gl.uniform1f(u.uWarp, s.warp)
     gl.uniform1f(u.uDetail, s.detail)
     gl.uniform1f(u.uAngle, s.angle * RAD)
-    gl.uniform1f(u.uCurve, s.curve)
+    gl.uniform1f(u.uTaper, s.taper)
     gl.uniform1f(u.uAmp, s.amp)
     gl.uniform1f(u.uFreq, s.freq)
-    gl.uniform1f(u.uRays, Math.round(s.rays))
+    gl.uniform1f(u.uDepth, s.depth)
     gl.uniform1f(u.uStretch, s.stretch)
+    gl.uniform1f(u.uCount, Math.round(s.count))
+    // What the frame spans along the angle: folds are counted across it, a ribbon opens up along it.
+    gl.uniform1f(
+      u.uSpan,
+      (Math.abs(Math.cos(s.angle * RAD)) * s.w + Math.abs(Math.sin(s.angle * RAD)) * s.h) / short,
+    )
+    gl.uniform1f(u.uFocus, s.focus)
     gl.uniform1f(u.uGrain, s.grain)
-    // Slider 0..2 → grain cell of 1..4 design px; nothing finer than a pixel exists.
-    gl.uniform1f(u.uGrainSize, 1 + s.grainSize * 1.5)
+    // Slider 0..2 → grain cell of 1..5 design px; nothing finer than a pixel exists.
+    gl.uniform1f(u.uGrainSize, 1 + s.grainSize * 2)
     gl.uniform1i(u.uGrainOct, 1 + Math.max(0, Math.round(Math.log2(px))))
     gl.drawArrays(gl.TRIANGLES, 0, 3)
   }
