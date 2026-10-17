@@ -27,6 +27,7 @@
   --color-revenue: var(--revenue);
   --color-line: var(--line);
   --color-placeholder: var(--placeholder);
+  --color-widget: var(--widget);
 }
 
 /* Static tokens (not theme-dependent) */
@@ -49,6 +50,7 @@
   --revenue: #0bc788;
   --line: #484848;
   --placeholder: #2a2a2a;
+  --widget: #232323;
 }
 
 /* Light theme is a first-pass inverse — refine with Andrey in Step 7. */
@@ -63,6 +65,7 @@
   --revenue: #0a9d6c;
   --line: #e4e4e7;
   --placeholder: #dcdce0;
+  --widget: #ffffff;
 }
 
 html {

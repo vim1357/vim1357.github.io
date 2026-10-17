@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react'
 import { motion, useInView, useReducedMotion, type Transition } from 'motion/react'
 import { cases } from '../data/cases'
 import { AssetImg } from './primitives'
+import { CaseVisual } from './CaseVisuals'
 
 const VIEWPORT = { once: true, margin: '-8% 0px' } as const
 const SPRING: Transition = { type: 'spring', stiffness: 220, damping: 30, mass: 1 }
@@ -12,24 +13,23 @@ const HEADER = 52
 const COVER = 180
 const LINE = 20
 const GAP = 8
-// Phones narrower than this get a third line of text, so copy isn't clipped.
-const NARROW = '(max-width: 359px)'
+// Copy gets as many lines as it needs at the current width (2–3), per card.
+const MIN_LINES = 2
+const MAX_LINES = 3
 
-function geometry(lines: number) {
-  const body = HEADER + COVER + 12 + lines * LINE + 16
-  return { body, height: HEADER + GAP + body + GAP + HEADER }
-}
-type Geometry = ReturnType<typeof geometry>
+const bodyFor = (lines: number) => HEADER + COVER + 12 + lines * LINE + 16
 
-function useNarrow() {
-  const [narrow, setNarrow] = useState(() => window.matchMedia(NARROW).matches)
+/** Live content width of an element (for scaling the fixed-size visuals). */
+function useWidth(ref: RefObject<HTMLElement | null>) {
+  const [width, setWidth] = useState(400)
   useEffect(() => {
-    const mq = window.matchMedia(NARROW)
-    const onChange = () => setNarrow(mq.matches)
-    mq.addEventListener('change', onChange)
-    return () => mq.removeEventListener('change', onChange)
-  }, [])
-  return narrow
+    const el = ref.current
+    if (!el) return
+    const ro = new ResizeObserver(([e]) => setWidth(e.contentRect.width))
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [ref])
+  return width
 }
 
 /** Signed distance from the active card, wrapped into -⌊n/2⌋…⌊n/2⌋. */
@@ -40,7 +40,7 @@ function offsetOf(index: number, active: number, count: number) {
 }
 
 /** Slot for a card at a given offset: -1 above, 0 open, +1 below, |2+| hidden. */
-function slot(offset: number, { body, height }: Geometry) {
+function slot(offset: number, body: number, height: number) {
   if (offset === 0) return { y: HEADER + GAP, height: body, scale: 1, opacity: 1, zIndex: 3 }
   if (offset === -1) return { y: 0, height: HEADER, scale: 0.92, opacity: 0.7, zIndex: 2 }
   if (offset === 1)
@@ -62,8 +62,24 @@ export function CaseCarousel() {
   const inView = useInView(ref, { margin: '-10% 0px' })
   const [active, setActive] = useState(0)
   const [hover, setHover] = useState(false)
-  const lines = useNarrow() ? 3 : 2
-  const g = geometry(lines)
+  const width = useWidth(ref)
+  const textRefs = useRef<(HTMLParagraphElement | null)[]>([])
+  const [lines, setLines] = useState<number[]>(() => cases.map(() => MIN_LINES))
+  // The stage keeps the tallest card's height, so the page below never jumps.
+  const height = HEADER + GAP + bodyFor(Math.max(...lines)) + GAP + HEADER
+  const activeBody = bodyFor(lines[active])
+
+  // scrollHeight reports the full copy height even while it's line-clamped.
+  useLayoutEffect(() => {
+    const measure = () =>
+      setLines(
+        textRefs.current.map((p) =>
+          p ? Math.min(MAX_LINES, Math.max(MIN_LINES, Math.round(p.scrollHeight / LINE))) : MIN_LINES,
+        ),
+      )
+    measure()
+    document.fonts?.ready.then(measure)
+  }, [width])
   const transition: Transition = reduce ? { duration: 0 } : SPRING
 
   // Re-armed on every change of `active`, so a click restarts the 3 s wait.
@@ -83,11 +99,12 @@ export function CaseCarousel() {
       onPointerEnter={() => setHover(true)}
       onPointerLeave={() => setHover(false)}
       className="relative w-full"
-      style={{ height: g.height }}
+      style={{ height }}
     >
       {cases.map((c, i) => {
         const offset = offsetOf(i, active, cases.length)
-        const s = slot(offset, g)
+        const s = slot(offset, activeBody, height)
+        const body = bodyFor(lines[i])
         const open = offset === 0
         const visible = Math.abs(offset) <= 1
         const select = () => !open && setActive(i)
@@ -113,7 +130,28 @@ export function CaseCarousel() {
               visible ? '' : 'pointer-events-none'
             } ${open ? '' : 'cursor-pointer'}`}
           >
-            <div className="flex items-center justify-between gap-3 px-4" style={{ height: HEADER }}>
+            {/* Visual fills the whole open card; header and copy sit on top of it. */}
+            <motion.div
+              aria-hidden
+              initial={false}
+              animate={{ opacity: open ? 1 : 0 }}
+              transition={reduce ? { duration: 0 } : { duration: 0.3, delay: open ? 0.08 : 0 }}
+              className="pointer-events-none absolute inset-x-0 top-0"
+              style={{ height: body }}
+            >
+              <CaseVisual id={c.visual} open={open} stageTop={HEADER} stageHeight={COVER} width={width} />
+              {/* Fades so the visual never fights the header and copy. */}
+              <div className="absolute inset-x-0 top-0 h-16 bg-linear-to-b from-surface to-transparent" />
+              <div
+                className="absolute inset-x-0 bottom-0 bg-linear-to-t from-surface from-55% to-transparent"
+                style={{ height: body - HEADER - COVER + 28 }}
+              />
+            </motion.div>
+
+            <div
+              className="relative flex items-center justify-between gap-3 px-4"
+              style={{ height: HEADER }}
+            >
               <span className="flex min-w-0 items-center gap-2">
                 <AssetImg src={c.icon} className="h-5 w-5 shrink-0 rounded-[4px] object-contain" />
                 <span className="truncate text-sm leading-5 text-primary">{c.name}</span>
@@ -125,14 +163,18 @@ export function CaseCarousel() {
               initial={false}
               animate={{ opacity: open ? 1 : 0 }}
               transition={reduce ? { duration: 0 } : { duration: 0.25, delay: open ? 0.1 : 0 }}
+              className="absolute inset-x-0 px-4 pb-4 pt-3"
+              style={{ top: HEADER + COVER }}
             >
-              <div className="mx-2 rounded-[12px] bg-placeholder" style={{ height: COVER }} />
-              <div className="px-4 pb-4 pt-3">
-                <p
-                  className="overflow-hidden text-sm leading-5 text-muted [display:-webkit-box] [-webkit-box-orient:vertical]"
-                  style={{ WebkitLineClamp: lines }}
-                >{c.text}</p>
-              </div>
+              <p
+                ref={(el) => {
+                  textRefs.current[i] = el
+                }}
+                className="overflow-hidden text-sm leading-5 text-muted [display:-webkit-box] [-webkit-box-orient:vertical]"
+                style={{ WebkitLineClamp: lines[i] }}
+              >
+                {c.text}
+              </p>
             </motion.div>
           </motion.div>
         )

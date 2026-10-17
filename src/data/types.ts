@@ -51,4 +51,6 @@ export type CaseCard = {
   icon: string
   /** Short description under the cover */
   text: string
+  /** Composed HTML visual (see components/CaseVisuals); grey placeholder if absent */
+  visual?: 'oversecured' | 'preplab'
 }

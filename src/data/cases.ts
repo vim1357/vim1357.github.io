@@ -4,7 +4,7 @@ export const casesSection: SectionMeta = {
   title: 'Кейсы',
 }
 
-// Roles from the résumé (Life OS 09_resume-duo-sapiens.md). Covers are placeholders.
+// Roles from the résumé (Life OS 09_resume-duo-sapiens.md). Cases without `visual` show a grey placeholder.
 // Keep `text` within two lines — the card clamps it.
 export const cases: CaseCard[] = [
   {
@@ -17,13 +17,15 @@ export const cases: CaseCard[] = [
     name: 'Oversecured',
     role: 'Дизайн-лид',
     icon: '/icons/oversecured.svg',
+    visual: 'oversecured',
     text: 'Предложил разработку на shadcn и перестроил тестирование гипотез — TTM ×4',
   },
   {
     name: 'Preplab',
     role: 'Фаундер',
     icon: '/icons/preplab.svg',
-    text: 'Запустил собственный продукт с нуля (0 → 1). Монетизация в B2C и B2B',
+    visual: 'preplab',
+    text: 'Запустил собственный продукт с нуля (0\u00a0→\u00a01). Монетизация в B2C и B2B',
   },
   {
     name: 'Cloud.ru',
@@ -35,6 +37,6 @@ export const cases: CaseCard[] = [
     name: 'Raiffeisen Bank',
     role: 'Senior UX-дизайнер',
     icon: '/icons/raiffeisen.svg',
-    text: 'Запустил корпоративную базу знаний (0 → 1). Метрика удовлетворённости ICX +15%',
+    text: 'Запустил корпоративную базу знаний (0\u00a0→\u00a01). Метрика удовлетворённости ICX\u00a0+15%',
   },
 ]
