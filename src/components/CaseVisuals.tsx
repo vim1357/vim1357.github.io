@@ -359,7 +359,336 @@ function Preplab({ open }: VisualProps) {
   )
 }
 
+/* ───────────── shared backdrop ───────────── */
+
+/** Faint pattern that fills the card and fades out towards the edges. */
+function Backdrop({ image, size, opacity = 0.12 }: { image: string; size: string; opacity?: number }) {
+  const mask = 'radial-gradient(ellipse 45% 50% at center, black 30%, transparent 75%)'
+  return (
+    <div
+      className="absolute left-[-220px] top-[-140px] h-[460px] w-[800px] text-primary"
+      style={{ opacity, backgroundImage: image, backgroundSize: size, maskImage: mask, WebkitMaskImage: mask }}
+    />
+  )
+}
+
+const NBSP = ' '
+
+/* ───────────── Cloud.ru ───────────── */
+
+const CLOUD_GREEN = '#26D07C'
+const CLOUD_RED = '#F0575F'
+const RESOURCES = [{ label: 'Виртуальные машины', used: '900', total: '1000 шт.', share: 0.9, color: CLOUD_RED }]
+
+function HealthGauge({ open }: { open: boolean }) {
+  const reduce = useReducedMotion()
+  const ARC = 2 / 3 // 240° gauge, gap at the bottom
+  const score = 0.89
+  const full = `${ARC * score} 1`
+  return (
+    <span className="relative mx-auto mt-1 block h-[84px] w-[96px]">
+      <svg viewBox="0 0 100 100" className="absolute inset-x-0 top-0 h-[96px] w-[96px] rotate-[150deg]">
+        <circle cx="50" cy="50" r="40" fill="none" strokeWidth="9" strokeLinecap="round" pathLength={1} strokeDasharray={`${ARC} 1`} className="stroke-primary/8" />
+        <motion.circle
+          cx="50"
+          cy="50"
+          r="40"
+          fill="none"
+          stroke={CLOUD_GREEN}
+          strokeWidth="9"
+          strokeLinecap="round"
+          pathLength={1}
+          initial={{ strokeDasharray: reduce ? full : '0 1' }}
+          animate={{ strokeDasharray: open || reduce ? full : '0 1' }}
+          transition={reduce ? { duration: 0 } : { duration: 1.1, delay: open ? 0.4 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+        />
+      </svg>
+      <span className="absolute inset-x-0 top-[30px] flex flex-col items-center">
+        <span className="text-[7.5px] leading-[9px] text-muted">оценка</span>
+        <span className="text-[18px] font-semibold leading-[22px] text-primary">89</span>
+      </span>
+    </span>
+  )
+}
+
+function Cloud({ open }: VisualProps) {
+  const reduce = useReducedMotion()
+  return (
+    <Stage open={open}>
+      <Backdrop
+        image="linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)"
+        size="22px 22px"
+        opacity={0.045}
+      />
+
+      {/* System health gauge */}
+      <Item open={open} i={0} float={false} className="left-[171px] top-[16px]" box={`h-[134px] w-[156px] px-3 pb-3 pt-2.5 ${WIDGET}`}>
+        <p className="text-[10px] font-semibold leading-3 text-primary">Здоровье систем</p>
+        <HealthGauge open={open} />
+        <p className="text-center text-[8px] leading-[10px] text-muted">Все системы в{NBSP}порядке</p>
+      </Item>
+
+      {/* Used resources — stacked left of the gauge, bottom-aligned with it (10px gaps) */}
+      {RESOURCES.map((r, k) => (
+        <Item
+          key={r.label}
+          open={open}
+          i={k + 1}
+          from={{ x: -16 }}
+          float={false}
+          className="right-[199px]"
+          style={{ top: 97 + k * 60 }}
+          box={`h-[53px] w-[128px] px-2.5 py-2 ${WIDGET}`}
+        >
+          <p className="text-[8px] leading-[10px] text-muted">{r.label}</p>
+          <p className="mt-1 flex items-baseline justify-between text-[10px] leading-3">
+            <span className="text-primary">
+              <span className="font-semibold">{r.used}</span>
+              <span className="text-muted"> / {r.total}</span>
+            </span>
+            <span className="font-semibold text-primary">{Math.round(r.share * 100)}%</span>
+          </p>
+          <span className="mt-1.5 block h-[3px] overflow-hidden rounded-full bg-primary/8">
+            <motion.span
+              className="block h-full rounded-full"
+              style={{ background: r.color }}
+              initial={{ width: reduce ? `${r.share * 100}%` : '0%' }}
+              animate={{ width: open || reduce ? `${r.share * 100}%` : '0%' }}
+              transition={reduce ? { duration: 0 } : { duration: 0.9, delay: open ? 0.5 + k * 0.1 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+            />
+          </span>
+        </Item>
+      ))}
+
+      {/* Balance — top-aligned with the gauge, sharing the stack's right edge */}
+      <Item open={open} i={3} from={{ x: -16 }} float={false} className="right-[199px] top-[16px]" box={`h-[71px] whitespace-nowrap px-2.5 py-2 ${WIDGET}`}>
+        <p className="flex items-center gap-1 text-[8px] leading-[10px] text-muted">
+          Баланс
+          <span className="grid h-[9px] w-[9px] place-items-center rounded-full text-[8px] leading-none text-white" style={{ background: CLOUD_GREEN }}>
+            +
+          </span>
+        </p>
+        <p className="mt-0.5 text-[13px] font-semibold leading-4 text-primary">20{NBSP}345{NBSP}₽</p>
+        <span
+          className="mt-1 inline-block rounded-[4px] px-1.5 py-[1px] text-[8px] leading-[11px]"
+          style={{ background: 'rgba(38, 208, 124, 0.14)', color: '#13a861' }}
+        >
+          ≈ 18 дней
+        </span>
+      </Item>
+
+    </Stage>
+  )
+}
+
+/* ───────────── 2PR ───────────── */
+
+const PR_BLUE = '#1A5CFF'
+// Engagement Jan → Dec, 5.2k → 8.4k (as on the 2PR recap page)
+const ENGAGEMENT = [5.2, 5.24, 5.3, 5.38, 5.5, 5.64, 5.8, 6.04, 6.38, 6.84, 7.5, 8.4]
+
+function engagementPath(w: number, h: number) {
+  const min = 5
+  const max = 8.6
+  const pts = ENGAGEMENT.map((v, k) => [(k / (ENGAGEMENT.length - 1)) * w, h - ((v - min) / (max - min)) * h])
+  const line = pts.map(([x, y], k) => `${k ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join(' ')
+  return { line, area: `${line} L${w} ${h} L0 ${h} Z`, end: pts[pts.length - 1] }
+}
+
+function EngagementChart({ open }: { open: boolean }) {
+  const reduce = useReducedMotion()
+  const W = 176
+  const H = 52
+  const { line, area, end } = engagementPath(W, H)
+  return (
+    <svg viewBox={`0 0 ${W} ${H + 2}`} className="mt-1 block h-[54px] w-[176px] overflow-visible">
+      <defs>
+        <linearGradient id="pr-area" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={PR_BLUE} stopOpacity="0.28" />
+          <stop offset="100%" stopColor={PR_BLUE} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <motion.path
+        d={area}
+        fill="url(#pr-area)"
+        initial={{ opacity: reduce ? 1 : 0 }}
+        animate={{ opacity: open || reduce ? 1 : 0 }}
+        transition={reduce ? { duration: 0 } : { duration: 0.6, delay: open ? 0.9 : 0.35 }}
+      />
+      <motion.path
+        d={line}
+        fill="none"
+        stroke={PR_BLUE}
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        initial={{ pathLength: reduce ? 1 : 0 }}
+        animate={{ pathLength: open || reduce ? 1 : 0 }}
+        transition={reduce ? { duration: 0 } : { duration: 1.1, delay: open ? 0.35 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+      />
+      <motion.circle
+        cx={end[0]}
+        cy={end[1]}
+        r="2.6"
+        fill="white"
+        stroke={PR_BLUE}
+        strokeWidth="1.4"
+        initial={{ scale: reduce ? 1 : 0 }}
+        animate={{ scale: open || reduce ? 1 : 0 }}
+        transition={reduce ? { duration: 0 } : { type: 'spring', stiffness: 400, damping: 20, delay: open ? 1.35 : 0.35 }}
+      />
+    </svg>
+  )
+}
+
+const PR_STATS = [{ label: 'Likes', value: '265', delta: '+167' }]
+
+function Pr({ open }: VisualProps) {
+  return (
+    <Stage open={open}>
+      <Backdrop image="linear-gradient(currentColor 1px, transparent 1px)" size="100% 24px" opacity={0.06} />
+
+      {/* Engagement recap */}
+      <Item open={open} i={0} float={false} className="left-[92px] top-[24px]" box={`w-[200px] px-3 pb-2.5 pt-2.5 ${WIDGET}`}>
+        <div className="flex items-center justify-between">
+          <span className="flex items-center gap-1.5 text-[10px] font-semibold leading-3 text-primary">
+            <span className="grid h-[14px] w-[14px] place-items-center rounded-full" style={{ background: PR_BLUE }}>
+              <svg viewBox="0 0 10 10" className="h-[8px] w-[8px]" fill="white" aria-hidden>
+                <circle cx="5" cy="3.2" r="1.9" />
+                <path d="M1.4 9c.3-2 1.8-3.2 3.6-3.2S8.3 7 8.6 9Z" />
+              </svg>
+            </span>
+            Engagement
+          </span>
+          <span className="flex items-baseline gap-1 text-[8px] leading-[10px] text-muted">
+            5.2k → <span className="text-[10px] font-semibold text-primary">8.4k</span>
+          </span>
+        </div>
+        <EngagementChart open={open} />
+      </Item>
+
+      {/* Product Hunt badge */}
+      <Item open={open} i={1} from={{ y: -10 }} className="left-[30px] top-[104px]" box={`flex items-center gap-2 px-2.5 py-1.5 ${WIDGET}`}>
+        <span className="flex items-center gap-2">
+          <span className="grid h-[18px] w-[18px] place-items-center rounded-full bg-[#F5B83D] text-[9px] font-bold leading-none text-white">1</span>
+          <span className="flex flex-col">
+            <span className="text-[6.5px] font-semibold uppercase leading-[8px] tracking-wide text-muted">Product Hunt</span>
+            <span className="text-[9px] font-semibold leading-[11px] text-primary">#1 Product of the Day</span>
+          </span>
+        </span>
+      </Item>
+
+      {/* Year stats */}
+      {PR_STATS.map((s, k) => (
+        <Item
+          key={s.label}
+          open={open}
+          i={k + 2}
+          from={{ x: 16 }}
+          className="left-[266px]"
+          style={{ top: 92 + k * 54 }}
+          box={`w-[64px] px-2.5 py-2 ${WIDGET}`}
+        >
+          <p className="text-[8px] leading-[10px] text-muted">{s.label}</p>
+          <p className="mt-0.5 text-[14px] font-semibold leading-[17px] text-primary">{s.value}</p>
+          <p className="text-[7.5px] leading-[9px] text-[#1DAF5F]">{s.delta}</p>
+        </Item>
+      ))}
+
+    </Stage>
+  )
+}
+
+/* ───────────── Raiffeisen ───────────── */
+
+const RAIF_YELLOW = '#FEE600'
+const RAIF_INK = '#2B2D33'
+const RAIF_LINK = '#4A64D8'
+const SPACES = ['Архитектурный репозиторий', 'Agile', 'Buddy school']
+const RESOURCES_LINKS = [
+  { name: 'Сервис-деск', bg: RAIF_YELLOW, mark: '✱' },
+  { name: 'Confluence', bg: '#2684FF', mark: 'C' },
+  { name: 'R-info', bg: RAIF_YELLOW, mark: 'R' },
+]
+
+function Raif({ open }: VisualProps) {
+  return (
+    <Stage open={open}>
+      <Backdrop
+        image="radial-gradient(currentColor 1px, transparent 1.3px)"
+        size="10px 10px"
+      />
+
+      {/* Knowledge base home */}
+      <Item open={open} i={0} float={false} className="left-[52px] top-[6px]" box={`w-[172px] p-2.5 ${WIDGET}`}>
+        <div className="flex items-center gap-1.5">
+          <span className="text-[12px] font-bold leading-[14px] text-primary">База знаний</span>
+          <span className="rounded-[4px] bg-[#F6DDC8] px-1 py-[1px] text-[6.5px] leading-[9px]" style={{ color: RAIF_INK }}>
+            Первая версия
+          </span>
+        </div>
+        <div className="mt-2 flex h-[20px] items-center gap-1.5 rounded-[6px] border border-primary/10 px-1.5">
+          <svg viewBox="0 0 10 10" className="h-[8px] w-[8px] text-muted" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden>
+            <circle cx="4.3" cy="4.3" r="3" />
+            <path d="m6.6 6.6 2.2 2.2" strokeLinecap="round" />
+          </svg>
+          <span className="text-[8px] leading-[10px] text-muted">Название пространства</span>
+        </div>
+        <div className="mt-1.5 flex flex-col gap-1">
+          {SPACES.map((name, k) => (
+            <div
+              key={name}
+              className={`flex h-[24px] items-center gap-2 rounded-[6px] px-1.5 ${k === SPACES.length - 1 ? 'bg-primary/6' : ''}`}
+            >
+              <span className="grid h-[16px] w-[16px] place-items-center rounded-[5px] bg-primary/8">
+                <span className="h-[6px] w-[6px] rounded-[1.5px] border border-primary/40" />
+              </span>
+              <span className="text-[8.5px] leading-[10px] text-primary">{name}</span>
+            </div>
+          ))}
+        </div>
+      </Item>
+
+      {/* Pointer resting on the highlighted space */}
+      <Item open={open} i={3} from={{ x: 10, y: 10 }} className="left-[172px] top-[134px]">
+        <svg viewBox="0 0 16 20" className="h-[16px] w-[13px]" aria-hidden>
+          <path
+            d="M1.5 1.5v14.2l3.6-3.4 2.4 5.6 2.6-1.1-2.4-5.5h5.1Z"
+            fill="white"
+            stroke="#111"
+            strokeWidth="1.2"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </Item>
+
+      {/* Useful resources */}
+      <Item open={open} i={2} from={{ x: 16 }} className="left-[208px] top-[30px]" box={`w-[102px] p-2.5 ${WIDGET}`}>
+        <p className="text-[9px] font-semibold leading-[11px] text-primary">Полезные ресурсы</p>
+        <div className="mt-1.5 flex flex-col gap-1.5">
+          {RESOURCES_LINKS.map((r) => (
+            <span key={r.name} className="flex items-center gap-1.5">
+              <span
+                className="grid h-[14px] w-[14px] place-items-center rounded-[4px] text-[8px] font-bold leading-none"
+                style={{ background: r.bg, color: r.bg === RAIF_YELLOW ? RAIF_INK : 'white' }}
+              >
+                {r.mark}
+              </span>
+              <span className="text-[8.5px] leading-[10px]" style={{ color: RAIF_LINK }}>
+                {r.name} ↗
+              </span>
+            </span>
+          ))}
+        </div>
+      </Item>
+    </Stage>
+  )
+}
+
 const visuals: Record<NonNullable<CaseCard['visual']>, (p: VisualProps) => ReactNode> = {
   oversecured: Oversecured,
   preplab: Preplab,
+  cloud: Cloud,
+  '2pr': Pr,
+  raif: Raif,
 }

@@ -52,5 +52,5 @@ export type CaseCard = {
   /** Short description under the cover */
   text: string
   /** Composed HTML visual (see components/CaseVisuals); grey placeholder if absent */
-  visual?: 'oversecured' | 'preplab'
+  visual?: 'oversecured' | 'preplab' | 'cloud' | '2pr' | 'raif'
 }
