@@ -18,10 +18,10 @@ export const profile = {
 
 export const contacts: Contact[] = [
   {
-    label: 'Позвать на онлайн-кофе',
-    note: '(30 мин)',
-    href: 'https://calendar.app.google/7kruWUsvVVQCns2e9',
-    icon: '/icons/gcal.png',
+    label: 'Написать в Telegram',
+    href: 'https://t.me/odokienkoan',
+    icon: '/icons/telegram.svg',
+    accent: true,
   },
   {
     label: 'odokienkoan@gmail.com',
@@ -29,9 +29,10 @@ export const contacts: Contact[] = [
     icon: '/icons/gmail.png',
   },
   {
-    label: 'Написать в Telegram',
-    href: 'https://t.me/odokienkoan',
-    icon: '/icons/telegram.svg',
-    accent: true,
+    label: 'Назначить встречу',
+    note: '(30 мин)',
+    href: 'https://calendar.app.google/7kruWUsvVVQCns2e9',
+    icon: '/icons/gcal.png',
+    caption: 'Считай, что это онлайн-кофе',
   },
 ]

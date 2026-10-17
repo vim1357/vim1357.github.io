@@ -118,8 +118,21 @@ export function ExperienceRow({ item }: { item: Experience }) {
   )
 }
 
-/** Contact button — surface or accent (Telegram-blue) variant. */
+/**
+ * Contact button — surface or accent (Telegram-blue) variant.
+ * With `caption`, the button sits in a lighter plate with the note below it.
+ */
 export function ContactButton({ item }: { item: Contact }) {
+  if (!item.caption) return <ContactLink item={item} />
+  return (
+    <div className="flex flex-col overflow-hidden rounded-btn bg-surface-2">
+      <ContactLink item={item} />
+      <p className="px-4 py-2.5 text-sm leading-5 text-muted">{item.caption}</p>
+    </div>
+  )
+}
+
+function ContactLink({ item }: { item: Contact }) {
   return (
     <motion.a
       href={item.href}

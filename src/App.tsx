@@ -3,10 +3,11 @@ import { SmoothScroll } from './components/SmoothScroll'
 import { Section, CardGroup } from './components/primitives'
 import { Stagger } from './components/motion'
 import { ProductRow, ExperienceRow, Socials } from './components/rows'
-import { ProjectFolder } from './components/ProjectFolder'
+import { CaseCarousel } from './components/CaseCarousel'
 import { products, productsSection } from './data/products'
 import { experience, experienceSection } from './data/experience'
 import { socialsSection } from './data/socials'
+import { casesSection } from './data/cases'
 import { manifesto, manifestoSection } from './data/manifesto'
 import { designExperienceSubtitle } from './lib/experience'
 
@@ -34,9 +35,10 @@ export default function App() {
             </CardGroup>
           </Section>
 
-          <div className="mt-10">
-            <ProjectFolder />
-          </div>
+          {/* Folder of case cards (ProjectFolder) is hidden for now — replaced by the carousel. */}
+          <Section {...casesSection}>
+            <CaseCarousel />
+          </Section>
 
           <Section {...socialsSection}>
             <Socials />

@@ -8,6 +8,8 @@ export type Contact = {
   icon: string
   /** Telegram-blue highlighted button */
   accent?: boolean
+  /** Muted line under the button; wraps both in a lighter plate */
+  caption?: string
 }
 
 /**
@@ -40,4 +42,13 @@ export type Social = {
   name: string
   href: string
   icon: string
+}
+
+export type CaseCard = {
+  name: string
+  /** My role on the project — right side of the card header */
+  role: string
+  icon: string
+  /** Short description under the cover */
+  text: string
 }
