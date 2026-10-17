@@ -10,9 +10,27 @@ const INTERVAL = 3000
 // Geometry (px). Collapsed card = header only; expanded = header + cover + text.
 const HEADER = 52
 const COVER = 180
-const BODY = HEADER + COVER + 12 + 40 + 16
+const LINE = 20
 const GAP = 8
-const HEIGHT = HEADER + GAP + BODY + GAP + HEADER
+// Phones narrower than this get a third line of text, so copy isn't clipped.
+const NARROW = '(max-width: 359px)'
+
+function geometry(lines: number) {
+  const body = HEADER + COVER + 12 + lines * LINE + 16
+  return { body, height: HEADER + GAP + body + GAP + HEADER }
+}
+type Geometry = ReturnType<typeof geometry>
+
+function useNarrow() {
+  const [narrow, setNarrow] = useState(() => window.matchMedia(NARROW).matches)
+  useEffect(() => {
+    const mq = window.matchMedia(NARROW)
+    const onChange = () => setNarrow(mq.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+  return narrow
+}
 
 /** Signed distance from the active card, wrapped into -⌊n/2⌋…⌊n/2⌋. */
 function offsetOf(index: number, active: number, count: number) {
@@ -22,15 +40,15 @@ function offsetOf(index: number, active: number, count: number) {
 }
 
 /** Slot for a card at a given offset: -1 above, 0 open, +1 below, |2+| hidden. */
-function slot(offset: number) {
-  if (offset === 0) return { y: HEADER + GAP, height: BODY, scale: 1, opacity: 1, zIndex: 3 }
+function slot(offset: number, { body, height }: Geometry) {
+  if (offset === 0) return { y: HEADER + GAP, height: body, scale: 1, opacity: 1, zIndex: 3 }
   if (offset === -1) return { y: 0, height: HEADER, scale: 0.92, opacity: 0.7, zIndex: 2 }
   if (offset === 1)
-    return { y: HEADER + GAP + BODY + GAP, height: HEADER, scale: 0.92, opacity: 0.7, zIndex: 2 }
+    return { y: HEADER + GAP + body + GAP, height: HEADER, scale: 0.92, opacity: 0.7, zIndex: 2 }
   // Off-stage: tucked behind the neighbour on its side, fully transparent.
   return offset < 0
     ? { y: -HEADER / 2, height: HEADER, scale: 0.84, opacity: 0, zIndex: 1 }
-    : { y: HEIGHT - HEADER / 2, height: HEADER, scale: 0.84, opacity: 0, zIndex: 1 }
+    : { y: height - HEADER / 2, height: HEADER, scale: 0.84, opacity: 0, zIndex: 1 }
 }
 
 /**
@@ -44,6 +62,8 @@ export function CaseCarousel() {
   const inView = useInView(ref, { margin: '-10% 0px' })
   const [active, setActive] = useState(0)
   const [hover, setHover] = useState(false)
+  const lines = useNarrow() ? 3 : 2
+  const g = geometry(lines)
   const transition: Transition = reduce ? { duration: 0 } : SPRING
 
   // Re-armed on every change of `active`, so a click restarts the 3 s wait.
@@ -63,11 +83,11 @@ export function CaseCarousel() {
       onPointerEnter={() => setHover(true)}
       onPointerLeave={() => setHover(false)}
       className="relative w-full"
-      style={{ height: HEIGHT }}
+      style={{ height: g.height }}
     >
       {cases.map((c, i) => {
         const offset = offsetOf(i, active, cases.length)
-        const s = slot(offset)
+        const s = slot(offset, g)
         const open = offset === 0
         const visible = Math.abs(offset) <= 1
         const select = () => !open && setActive(i)
@@ -108,7 +128,10 @@ export function CaseCarousel() {
             >
               <div className="mx-2 rounded-[12px] bg-placeholder" style={{ height: COVER }} />
               <div className="px-4 pb-4 pt-3">
-                <p className="line-clamp-2 text-sm leading-5 text-muted">{c.text}</p>
+                <p
+                  className="overflow-hidden text-sm leading-5 text-muted [display:-webkit-box] [-webkit-box-orient:vertical]"
+                  style={{ WebkitLineClamp: lines }}
+                >{c.text}</p>
               </div>
             </motion.div>
           </motion.div>
