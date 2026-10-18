@@ -54,3 +54,16 @@ export type CaseCard = {
   /** Composed HTML visual (see components/CaseVisuals); grey placeholder if absent */
   visual?: 'oversecured' | 'preplab' | 'cloud' | '2pr' | 'raif'
 }
+
+export type Testimonial = {
+  /** Reviewer name */
+  name: string
+  /** Role / company line under the name */
+  role: string
+  /** Short relationship note, e.g. "Непосредственный руководитель Андрея" */
+  relation?: string
+  /** Square avatar photo */
+  photo: string
+  /** The review text */
+  quote: string
+}

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import type { Contact, Experience, Product } from '../data/types'
+import type { Contact, Experience, Product, Testimonial } from '../data/types'
 import { socials } from '../data/socials'
 import { AssetImg, ArrowUpRight } from './primitives'
 import { Stagger, TextReveal } from './motion'
@@ -175,5 +175,76 @@ export function Socials() {
         </motion.a>
       ))}
     </Stagger>
+  )
+}
+
+/**
+ * Testimonial card — avatar + name/role header, then the quote.
+ * Collapsed to 2 lines with an inline «показать» at the end of the 2nd line (see .quote-clamp).
+ * Height springs open/closed like the experience accordion; the full text stays mounted
+ * until the collapse finishes, then swaps back to the clamped version.
+ */
+export function FeedbackRow({ item }: { item: Testimonial }) {
+  const [open, setOpen] = useState(false)
+  const [full, setFull] = useState(false)
+  const reduce = useReducedMotion()
+  const expand = () => {
+    setFull(true)
+    setOpen(true)
+  }
+  const toggle = 'cursor-pointer text-primary transition-opacity hover:opacity-70'
+  return (
+    <div className="flex flex-col bg-surface px-4 py-4">
+      <div className="flex items-center gap-3">
+        <AssetImg
+          src={item.photo}
+          alt={item.name}
+          className="h-10 w-10 shrink-0 rounded-full object-cover"
+        />
+        <div className="flex min-w-0 flex-col">
+          <span className="truncate text-sm font-semibold leading-5 text-primary">{item.name}</span>
+          <span className="truncate text-xs leading-4 text-muted">{item.role}</span>
+        </div>
+      </div>
+      {item.relation && <p className="mt-3 text-xs leading-4 text-faint">{item.relation}</p>}
+      <motion.div
+        initial={false}
+        animate={{ height: open ? 'auto' : 48 }}
+        transition={reduce ? { duration: 0.15 } : { type: 'spring', duration: 0.5, bounce: 0.3 }}
+        onAnimationComplete={() => {
+          if (!open) setFull(false)
+        }}
+        className="mt-2"
+        style={{ overflow: 'hidden' }}
+      >
+        {full ? (
+          <p className="text-sm leading-6 text-muted">
+            {item.quote}{' '}
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              aria-expanded={open}
+              className={toggle}
+            >
+              Скрыть
+            </button>
+          </p>
+        ) : (
+          <div className="quote-clamp">
+            <p className="text-sm leading-6 text-muted">
+              <button
+                type="button"
+                onClick={expand}
+                aria-expanded={false}
+                className={`quote-toggle pl-1 ${toggle}`}
+              >
+                <span className="text-muted">… </span>показать
+              </button>
+              {item.quote}
+            </p>
+          </div>
+        )}
+      </motion.div>
+    </div>
   )
 }

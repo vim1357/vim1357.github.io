@@ -1,14 +1,16 @@
 import { Sidebar } from './components/Sidebar'
 import { SmoothScroll } from './components/SmoothScroll'
 import { Section, CardGroup } from './components/primitives'
-import { Stagger } from './components/motion'
-import { ProductRow, ExperienceRow, Socials } from './components/rows'
+import { ProductRow, ExperienceRow, FeedbackRow, Socials } from './components/rows'
 import { CaseCarousel } from './components/CaseCarousel'
 import { products, productsSection } from './data/products'
 import { experience, experienceSection } from './data/experience'
 import { socialsSection } from './data/socials'
 import { casesSection } from './data/cases'
-import { manifesto, manifestoSection } from './data/manifesto'
+import { feedback, feedbackSection } from './data/feedback'
+// Манифест скрыт — данные и разметку оставили, чтобы вернуть одной правкой.
+// import { manifesto, manifestoSection } from './data/manifesto'
+// import { Stagger } from './components/motion'
 import { designExperienceSubtitle } from './lib/experience'
 
 export default function App() {
@@ -40,10 +42,19 @@ export default function App() {
             <CaseCarousel />
           </Section>
 
+          <Section {...feedbackSection}>
+            <CardGroup>
+              {feedback.map((f) => (
+                <FeedbackRow key={f.name} item={f} />
+              ))}
+            </CardGroup>
+          </Section>
+
           <Section {...socialsSection}>
             <Socials />
           </Section>
 
+          {/* Манифест скрыт (не удалён):
           <Section {...manifestoSection}>
             <Stagger className="flex flex-col gap-4" y={16}>
               {manifesto.map((paragraph, i) => (
@@ -53,6 +64,7 @@ export default function App() {
               ))}
             </Stagger>
           </Section>
+          */}
         </div>
       </main>
     </div>

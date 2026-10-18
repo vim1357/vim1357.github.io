@@ -96,3 +96,23 @@ html.lenis body {
 .lenis.lenis-smooth iframe {
   pointer-events: none;
 }
+
+/* Отзыв свёрнут до 2 строк (leading-6), «… показать» стоит в конце второй строки.
+ * Float-трюк: ::before выталкивает плавающую кнопку на высоту текста минус одну строку,
+ * текст обтекает её слева. display:flex даёт ::before определённую высоту 100%. */
+.quote-clamp {
+  display: flex;
+}
+.quote-clamp > p {
+  max-height: 3rem;
+  overflow: hidden;
+}
+.quote-clamp > p::before {
+  content: '';
+  float: right;
+  height: calc(100% - 1.5rem);
+}
+.quote-clamp .quote-toggle {
+  float: right;
+  clear: both;
+}
