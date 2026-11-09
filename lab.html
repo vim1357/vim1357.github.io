@@ -1,0 +1,32 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>lab</title>
+<style>
+  body { margin: 0; background: #222; display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; padding: 6px; }
+  canvas { width: 100%; display: block; }
+  p { margin: 0; color: #aaa; font: 10px monospace; }
+</style>
+<script type="module">
+  import { Renderer } from '/src/gradient/renderer.ts'
+  import { DEFAULT_STATE } from '/src/gradient/state.ts'
+  import { randomAll, randomLayout, randomColors } from '/src/gradient/random.ts'
+  const q = new URLSearchParams(location.search)
+  const form = q.get('form')
+  const [w, h] = (q.get('size') ?? '720x1080').split('x').map(Number)
+  document.body.style.gridTemplateColumns = `repeat(${q.get('cols') ?? 6}, 1fr)`
+  for (let i = 0; i < Number(q.get('n') ?? 12); i++) {
+    let s = randomAll({ ...DEFAULT_STATE, w, h, grain: 0.45, grainSize: 0.2 })
+    if (form) s = randomColors(randomLayout({ ...s, form }))
+    const c = document.createElement('canvas')
+    c.width = w / 2
+    c.height = h / 2
+    const d = document.createElement('div')
+    d.append(c)
+    const p = document.createElement('p')
+    p.textContent = s.form
+    d.append(p)
+    document.body.append(d)
+    const r = new Renderer(c, true)
+    r.draw(s, 0.5)
+  }
+</script>
