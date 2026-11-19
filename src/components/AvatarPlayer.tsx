@@ -7,6 +7,10 @@ type Mode = 'idle' | 'playing' | 'paused' | 'ended'
 
 const EASE_OUT = [0.22, 1, 0.36, 1] as const
 
+// Views pill is hidden: the Abacus backend has been down since 2026-11-19 and the
+// roll spun forever. Flip to true once Abacus answers again. Clicks are still sent.
+const SHOW_VIEWS: boolean = false
+
 /**
  * Views number with a "loading" roll. While value is null (request in flight)
  * it climbs upward like a calm odometer; when the real value lands it eases to
@@ -96,7 +100,7 @@ export function AvatarPlayer() {
 
   useEffect(() => {
     let alive = true
-    getViews().then((v) => alive && v != null && setViews(v))
+    if (SHOW_VIEWS) getViews().then((v) => alive && v != null && setViews(v))
     const el = videoRef.current
     if (el) {
       // idle ambient state — controlled imperatively so re-renders can't reset them
@@ -182,18 +186,20 @@ export function AvatarPlayer() {
 
       <div className="pointer-events-none absolute -bottom-1 left-1/2 flex -translate-x-1/2 items-center gap-0.5">
         <span className={`${pill} w-12 justify-center tabular-nums`}>{fmt(remaining)}</span>
-        <span className={pill} title="Просмотры">
-          <svg viewBox="0 0 24 24" className="mr-1 h-3.5 w-3.5" fill="none" aria-hidden>
-            <path
-              d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinejoin="round"
-            />
-            <circle cx="12" cy="12" r="2.6" stroke="currentColor" strokeWidth="2" />
-          </svg>
-          <ViewsCount value={views} />
-        </span>
+        {SHOW_VIEWS && (
+          <span className={pill} title="Просмотры">
+            <svg viewBox="0 0 24 24" className="mr-1 h-3.5 w-3.5" fill="none" aria-hidden>
+              <path
+                d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinejoin="round"
+              />
+              <circle cx="12" cy="12" r="2.6" stroke="currentColor" strokeWidth="2" />
+            </svg>
+            <ViewsCount value={views} />
+          </span>
+        )}
       </div>
     </div>
   )
