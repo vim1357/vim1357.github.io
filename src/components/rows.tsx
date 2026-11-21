@@ -180,9 +180,9 @@ export function Socials() {
 
 /**
  * Testimonial card — avatar + name/role header, then the quote.
- * Collapsed to 2 lines with an inline «показать» at the end of the 2nd line (see .quote-clamp).
- * Height springs open/closed like the experience accordion; the full text stays mounted
- * until the collapse finishes, then swaps back to the clamped version.
+ * Collapsed to 2 lines; the toggle sits on its own line under the text, so its x never changes
+ * and it only rides down with the text. Height animates without bounce, so the toggle never
+ * overshoots; the full text stays mounted until the collapse finishes, then clamps again.
  */
 export function FeedbackRow({ item }: { item: Testimonial }) {
   const [open, setOpen] = useState(false)
@@ -192,7 +192,6 @@ export function FeedbackRow({ item }: { item: Testimonial }) {
     setFull(true)
     setOpen(true)
   }
-  const toggle = 'cursor-pointer text-primary transition-opacity hover:opacity-70'
   return (
     <div className="flex flex-col bg-surface px-4 py-4">
       <div className="flex items-center gap-3">
@@ -210,41 +209,23 @@ export function FeedbackRow({ item }: { item: Testimonial }) {
       <motion.div
         initial={false}
         animate={{ height: open ? 'auto' : 48 }}
-        transition={reduce ? { duration: 0.15 } : { type: 'spring', duration: 0.5, bounce: 0.3 }}
+        transition={reduce ? { duration: 0.15 } : { type: 'spring', duration: 0.5, bounce: 0 }}
         onAnimationComplete={() => {
           if (!open) setFull(false)
         }}
         className="mt-2"
         style={{ overflow: 'hidden' }}
       >
-        {full ? (
-          <p className="text-sm leading-6 text-muted">
-            {item.quote}{' '}
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              aria-expanded={open}
-              className={toggle}
-            >
-              Скрыть
-            </button>
-          </p>
-        ) : (
-          <div className="quote-clamp">
-            <p className="text-sm leading-6 text-muted">
-              <button
-                type="button"
-                onClick={expand}
-                aria-expanded={false}
-                className={`quote-toggle pl-1 ${toggle}`}
-              >
-                <span className="text-muted">… </span>показать
-              </button>
-              {item.quote}
-            </p>
-          </div>
-        )}
+        <p className={`text-sm leading-6 text-muted ${full ? '' : 'line-clamp-2'}`}>{item.quote}</p>
       </motion.div>
+      <button
+        type="button"
+        onClick={() => (open ? setOpen(false) : expand())}
+        aria-expanded={open}
+        className="mt-1 cursor-pointer self-start text-sm leading-6 text-primary transition-opacity hover:opacity-70"
+      >
+        {open ? 'Скрыть' : 'Показать'}
+      </button>
     </div>
   )
 }
